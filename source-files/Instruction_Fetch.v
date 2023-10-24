@@ -20,14 +20,23 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Instruction_Fetch();
-    
-Mux32bit2to1 PC_Mux();
+module Instruction_Fetch(Clock,
+PCSel, BranchPC,
+PCPlusFour, Instruction
+);
+input Clock;
+input [31:0] BranchPC;
+input PCSel;
+output reg [31:0] PCPlusFour, Instruction;
 
-ProgramCounter Program_Counter();
+wire NewPC, PCSel;  
 
-Plus4Adder PC_Iterator();
+Mux32bit2to1 PC_Mux(PCPlusFour, BranchPC, NewPC, PCSel);
 
-InstructionMemory Instruction_Memory();
+wire PC_To_Instr_Mem;
+ProgramCounter Program_Counter(NewPC, PC_To_Instr_Mem);
+
+Plus4Adder PC_Iterator(PC_To_Instr_Mem, PCPlusFour);
+InstructionMemory Instruction_Memory(PC_To_Instr_Mem, Instruction);
 
 endmodule
