@@ -20,7 +20,16 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Instruction_Decode(
+module Instruction_Decode();
 
-    );
+Controller Sys_Controller();
+
+Mux32bit2to1 rs_Mux();
+
+Mux32bit4to1 rt_Mux();
+
+UpdatedRegisterFile Register_File();
+
+SignExtend Extend_Imm();
+
 endmodule

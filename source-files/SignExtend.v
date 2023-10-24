@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 10/23/2023 09:55:22 PM
+// Create Date: 10/24/2023 03:22:46 PM
 // Design Name: 
-// Module Name: ProcessorTopFileMIPS
+// Module Name: SignExtend
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,31 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module ProcessorTopFileMIPS();
+module SignExtend(
 
-Instruction_Fetch(
-Clock, PCSel_IF, BranchPC_IF,
-PCPlusFour_IF, Instruction_IF
-);
-
-FetchToDecode(
-Clock, 
-Instruction_IF, PCPlusFour_IF,
-Instruction_ID, PCPlusFour_ID
-);
-
-Instruction_Decode();
-
-DecodeToExecute();
-
-Execute();
-
-ExecuteToMemory();
-
-Memory();
-
-MemoryToWriteBack();
-
-Write_Back();
-
+    );
 endmodule
