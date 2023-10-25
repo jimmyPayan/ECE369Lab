@@ -80,6 +80,7 @@ Instruction_EX, Opcode_EX, RegDst_EX, ALUSrc0_EX, ALUSrc1_EX, PCPlusFour_EX, Sha
 
 // Wires used for first time in Execute
 wire Zero_EX;
+wire [4:0] rDestSelected_EX;
 wire [27:0] j_sll_two_EX; // careful with this one, it's output as a 32 bit value.
 wire [31:0] ALUResult, PC_Plus_Branch;
 
@@ -87,12 +88,19 @@ Execute EX_Stage(
 RegDst_EX, ALUSrc0_EX, ALUSrc1_EX, Shamt_EX,
 Reg_Data1_EX, Reg_Data2_EX, Imm32b_EX, PCPlusFour_EX,
 
-Zero_EX, ALUResult_EX,
+Zero_EX, rDestSelected_EX, ALUResult_EX,
 j_sll_two_EX, PC_Plus_Branch_EX
 );
 
-
-ExecuteToMemory EX_MEM_Pipeline();
+wire R_Enable_MEM, W_Enable_MEM, RegWrite_MEM, MemToReg_MEM, Zero_MEM;
+wire [1:0] R_Width_MEM, W_Width_MEM;
+wire [4:0] rDestSelected_MEM;
+wire [31:0] BranchSel_MEM, ALUResult_MEM, PC_Plus_Branch_MEM, Reg_Data2_MEM, j_sll_two_MEM;
+ExecuteToMemory EX_MEM_Pipeline(
+Clock, 
+R_Enable_EX, W_Enable_EX, BranchSel_EX, RegWrite_EX, MemToReg_EX, ALUResult_EX, rDestSelected_EX, R_Width_EX, W_Width_EX, PC_plus_branch_EX, Zero_EX, Reg_Data2_EX, j_sll_two_EX, 
+R_Enable_MEM, W_Enable_MEM, BranchSel_MEM, RegWrite_MEM, MemToReg_MEM, ALUResult_MEM, rDestSelected_MEM, R_Width_MEM, W_Width_MEM, PC_plus_branch_MEM, Zero_MEM, Reg_Data2_MEM, j_sll_two_MEM
+);
 
 Memory MEM_Stage();
 
