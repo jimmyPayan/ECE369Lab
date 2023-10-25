@@ -20,10 +20,10 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module ALUControl(Instruction, OpCode, ALUControl);
+module ALUControl(Instruction, Opcode, ALUControl);
 
 input [5:0] Instruction;
-input [5:0] OpCode;
+input [5:0] Opcode;
 output reg [3:0] ALUControl;
 
 always @(*) begin
@@ -31,7 +31,7 @@ always @(*) begin
 case (Instruction)
 
     // R-type with 6 MSB == 000000
-    6'b000000: case (OpCode)
+    6'b000000: case (Opcode)
            6'b100000: ALUControl <= 0; // add
            6'b100010: ALUControl <= 1; // sub
            6'b001000: ALUControl <= 0; // jr (add $rs and $0)
@@ -59,7 +59,7 @@ case (Instruction)
     6'b101000: ALUControl <= 0; // sb
     
     // Branch commands: It might be faster to put these directly into the branch logic
-    6'b000001: case (OpCode)
+    6'b000001: case (Opcode)
             0: ALUControl <= 1; // bltz (rs - $0: if < 0, then rs < 0)
             1: ALUControl <= 1; // bgez (rs - $0: if >= 0, then rs >= 0)     
        endcase

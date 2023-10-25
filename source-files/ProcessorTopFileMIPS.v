@@ -22,7 +22,7 @@
 
 module ProcessorTopFileMIPS(Clock);
 
-// Wires used for first time in fetch
+// Wires used for first time in Instruction Fetch
 input Clock;
 wire PCSel_IF;
 wire [31:0] BranchPC_IF, PCPlusFour_IF, Instruction_IF;
@@ -41,7 +41,7 @@ Instruction_IF, PCPlusFour_IF,
 Instruction_ID, PCPlusFour_ID
 );
 
-// Wires used for first time in decode
+// Wires used for first time in Instruction Decode
 wire PCSel_ID, RegDst_ID, ALUSrc0_ID,  R_Enable_ID, W_Enable_ID, MemToReg_ID, RegWrite_ID;
 wire [1:0] R_Width_ID, W_Width_ID, ALUSrc1_ID;
 wire [3:0] BranchSel_ID;
@@ -65,6 +65,7 @@ wire [4:0] Shamt_EX, rt_EX, rd_EX;
 wire [5:0] Instruction_EX, Opcode_EX;
 wire [25:0] instr_index_EX;
 wire [31:0] PCPlusFour_EX, Reg_Data1_EX, Reg_Data2_EX, Imm32b_EX;
+
 DecodeToExecute ID_EX_Pipeline(
 Clock, 
 
@@ -77,7 +78,19 @@ R_Enable_EX, W_Enable_EX, R_Width_EX, W_Width_EX, BranchSel_EX,
 Instruction_EX, Opcode_EX, RegDst_EX, ALUSrc0_EX, ALUSrc1_EX, PCPlusFour_EX, Shamt_EX, Reg_Data1_EX, Reg_Data2_EX, Imm32b_EX, rt_EX, rd_EX, instr_index_EX 
 );
 
-Execute EX_Stage();
+// Wires used for first time in Execute
+wire Zero_EX;
+wire [27:0] j_sll_two_EX; // careful with this one, it's output as a 32 bit value.
+wire [31:0] ALUResult, PC_Plus_Branch;
+
+Execute EX_Stage(
+RegDst_EX, ALUSrc0_EX, ALUSrc1_EX, Shamt_EX,
+Reg_Data1_EX, Reg_Data2_EX, Imm32b_EX, PCPlusFour_EX,
+
+Zero_EX, ALUResult_EX,
+j_sll_two_EX, PC_Plus_Branch_EX
+);
+
 
 ExecuteToMemory EX_MEM_Pipeline();
 
