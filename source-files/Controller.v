@@ -21,19 +21,23 @@
 
 
 module Controller(
-
 Instruction, BranchSignal, Opcode, // Inputs
-
-PCSrc, RegSrc0, RegSrc1, RegDst, ALUSrc0, ALUSrc1,
+PCSrc, 
+RegSrc0, RegSrc1, ExtendSel,
+RegDst, ALUSrc0, ALUSrc1,
 R_Enable, W_Enable, MemToReg, RegWrite, R_Width, W_Width, InstrSel // Outputs
 );
 
 input [5:0] Instruction;
 input [4:0] BranchSignal;
 input [5:0] Opcode;
+
 output reg PCSrc;
+
 output reg RegSrc0;
 output reg RegSrc1;
+output reg ExtendSel;
+
 output reg RegDst;
 output reg ALUSrc0;
 output reg ALUSrc1;

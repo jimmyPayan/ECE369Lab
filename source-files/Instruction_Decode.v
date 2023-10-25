@@ -33,7 +33,9 @@ R_Enable, W_Enable, MemToReg, RegWrite, R_Width, W_Width, InstrSel;
 
 Controller Sys_Controller(
 Instruction [31:26], Instruction [20:16], Instruction [5:0], // Inputs
-PCSel, RegSrc0, RegSrc1, RegDst, ALUSrc0, ALUSrc1,
+PCSel, 
+RegSrc0, RegSrc1, /*Add ExtendSel here */
+RegDst, ALUSrc0, ALUSrc1,
 R_Enable, W_Enable, MemToReg, RegWrite, R_Width, W_Width, InstrSel // Outputs
 );
 
