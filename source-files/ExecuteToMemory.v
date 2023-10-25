@@ -34,7 +34,7 @@ input [4:0] rDestSelected_in;
 input [1:0] R_Width_in, W_Width_in;
 input [27:0] j_sll_two_in;
 
-output reg R_EnableOut, W_EnableOut, RegWriteOut, MemToRegOut;
+output reg R_EnableOut, W_EnableOut, RegWriteOut, MemToRegOut, Zero_out;
 output reg [3:0] BranchSelOut;
 output reg [31:0] ALUResult_Out, PC_plus_branch_out, RegData2_out;
 output reg [4:0] rDestSelected_Out;

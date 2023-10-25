@@ -22,37 +22,74 @@
 
 module DecodeToExecute
 (Clock, 
-InstrIn, OpcodeIn, RegDstIn, ALUSrc0In, ALUSrc1In,
-R_EnableIn, W_EnableIn, BranchSelIn, RegWriteIn, MemToRegIn, R_CommandIn, W_CommandIn,
 
-InstrOut, OpcodeOut, RegDstOut, ALUSrc0Out, ALUSrc1Out, 
-R_EnableOut, W_EnableOut, BranchSelOut, RegWriteOut, MemToRegOut, R_CommandOut, W_CommandOut
+MemToRegIn, RegWriteIn, 
+R_EnableIn, W_EnableIn, R_WidthIn, W_WidthIn, BranchSelIn,
+InstructionIn, OpcodeIn, RegDstIn, ALUSrc0In, ALUSrc1In, PCPlusFourIn, ShamtIn, Reg_Data1In, Reg_Data2In, Imm32bIn, rtIn, rdIn, instr_indexIn,
+
+MemToRegOut, RegWriteOut, 
+R_EnableOut, W_EnableOut, R_WidthOut, W_WidthOut, BranchSelOut,
+InstructionOut, OpcodeOut, RegDstOut, ALUSrc0Out, ALUSrc1Out, PCPlusFourOut, ShamtOut, Reg_Data1Out, Reg_Data2Out, Imm32bOut, rtOut, rdOut, instr_indexOut 
 );
 
 input Clock;
-input InstrIn, OpcodeIn, RegDstIn, ALUSrc0In, ALUSrc1In;
-input R_EnableIn, W_EnableIn, RegWriteIn, MemToRegIn;
-input [3:0] BranchSelIn;
-input [2:0] R_CommandIn, W_CommandIn;
 
-output reg InstrOut, OpcodeOut, RegDstOut, ALUSrc0Out, ALUSrc1Out;
-output reg R_EnableOut, W_EnableOut, RegWriteOut, MemToRegOut;
+input MemToRegIn, RegWriteIn; // Write Back Signals
+
+input R_EnableIn, W_EnableIn; // Memory Signals
+input [1:0] R_WidthIn, W_WidthIn;
+input [3:0] BranchSelIn;
+
+input RegDstIn, ALUSrc0In, ALUSrc1In; // Execute Signals + Data
+input [4:0] ShamtIn;
+input [5:0] InstructionIn, OpcodeIn, rtIn, rdIn; 
+input [25:0] instr_indexIn;
+input [31:0] PCPlusFourIn, Reg_Data1In, Reg_Data2In, Imm32bIn;
+
+// Outputs of these now!
+output reg MemToRegOut, RegWriteOut; // Write Back Signals
+
+output reg R_EnableOut, W_EnableOut; // Memory Signals
+output reg [1:0] R_WidthOut, W_WidthOut;
 output reg [3:0] BranchSelOut;
-output reg [2:0] R_CommandOut, W_CommandOut;
+
+output reg RegDstOut, ALUSrc0Out, ALUSrc1Out; // Execute Signals + Data
+output reg [4:0] ShamtOut;
+output reg [5:0] InstructionOut, OpcodeOut, rtOut, rdOut; 
+output reg [25:0] instr_indexOut;
+output reg [31:0] PCPlusFourOut, Reg_Data1Out, Reg_Data2Out, Imm32bOut;
 
 always @ (posedge Clock) begin 
-InstrOut <= InstrIn;
-OpcodeOut <= OpcodeIn;
+// Write Back Signals 
+MemToRegOut <= MemToRegIn;
+RegWriteOut <= RegWriteIn;
+
+// Memory Signals
+R_EnableOut <= R_EnableIn;
+R_WidthOut <= R_WidthIn;
+W_EnableOut <= W_EnableIn;
+W_WidthOut <= W_WidthIn;
+BranchSelOut <= BranchSelIn;
+
+// Execute Signals
 RegDstOut <= RegDstIn;
 ALUSrc0Out <= ALUSrc0In;
 ALUSrc1Out <= ALUSrc1In;
-R_EnableOut <= R_EnableIn;
-W_EnableOut <= W_EnableIn;
-BranchSelOut <= BranchSelIn;
-RegWriteOut <= RegWriteIn;
-MemToRegOut <= MemToRegIn;
-W_CommandOut <= W_CommandIn;
-R_CommandOut <= R_CommandIn;
+InstructionOut <= InstructionIn;
+OpcodeOut <= OpcodeIn;
+
+// Execute Data
+ShamtOut <= ShamtIn;
+rtOut <= rtIn;
+rdOut <= rdIn;
+instr_indexOut <= instr_indexIn;
+PCPlusFourOut <= PCPlusFourIn;
+Reg_Data1Out <= Reg_Data1In;
+Reg_Data2Out <= Reg_Data2In;
+Imm32bOut <= Imm32bIn;
+
+
+
 end
 
 endmodule
