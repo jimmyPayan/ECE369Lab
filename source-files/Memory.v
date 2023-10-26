@@ -32,7 +32,7 @@ R_Data, PCNew, PCSrc
     input [27:0] j_sll_two;
 
     output reg [31:0] R_Data, PCNew;
-    output reg [1:0] PCSrc;
+    output reg PCSrc;
 
     DataMemory Data_Memory(Clock, W_Enable, R_Enable, ALUResult, R_Data, Reg_Data2, R_Width, W_Width);
     PCSrcControl PCSrc_Control(BranchSel, Zero, ALUResult, j_sll_two, PC_Plus_Branch, PCSrc, PCNew);

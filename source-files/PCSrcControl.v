@@ -25,7 +25,7 @@ module PCSrcControl(BranchSel, Zero, ALUResult, Imm, AddResult, PCSrc, PCNew);
     input Zero;
     input [31:0] ALUResult, AddResult;
     input [27:0] Imm;
-    output reg [1:0] PCSrc;
+    output reg PCSrc;
     output reg [31:0] PCNew;
     
     always @(BranchSel) begin

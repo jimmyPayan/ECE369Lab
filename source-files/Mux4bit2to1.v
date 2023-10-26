@@ -1,9 +1,9 @@
 `timescale 1ns / 1ps
 
-module Mux32bit2to1(A, B, Out, Select);
-input [31:0] A, B;
+module Mux5bit2to1(A, B, Out, Select);
+input [4:0] A, B;
 input Select;
-output reg [31:0] Out;
+output reg [4:0] Out;
 
 always@(*) begin 
     if (Select > 0) begin

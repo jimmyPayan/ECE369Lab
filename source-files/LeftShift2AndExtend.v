@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 10/18/2023 05:44:54 PM
+// Create Date: 10/25/2023 12:35:22 PM
 // Design Name: 
-// Module Name: Mux32bit4to1
+// Module Name: LeftShift2AndExtend
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,16 +20,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Mux32bit4to1(A, B, C, D, Out, Select);
-input [31:0] A, B, C, D;
-input Select;
-output reg [31:0] Out;
-always@(*) begin 
-    case(Select)
-        32'h00000001 : Out <= A;
-        32'h00000002 : Out <= B;
-        32'h00000004 : Out <= C;
-        32'h00000008 : Out <= D;
-        endcase
-    end
+module LeftShift2AndExtend(inputVal, outputVal);
+input [25:0] inputVal;
+output reg [27:0] outputVal;
+reg [27:0] temp;
+
+always @(*) begin
+temp <= {2'b00, inputVal};
+outputVal <= temp << 2;
+end
 endmodule

@@ -22,14 +22,14 @@
 
 module Instruction_Fetch(Clock,
 PCSel, BranchPC,
-PCPlusFour, Instruction
+Instruction, PCPlusFour
 );
 input Clock;
 input [31:0] BranchPC;
 input PCSel;
-output reg [31:0] PCPlusFour, Instruction;
+output reg [31:0] Instruction, PCPlusFour;
 
-wire NewPC, PCSel;  
+wire NewPC;  
 
 Mux32bit2to1 PC_Mux(PCPlusFour, BranchPC, NewPC, PCSel);
 

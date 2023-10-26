@@ -40,9 +40,8 @@ input [31:0] Address;
 reg signed [31:0] memoryInitial [0:1023];
 
 initial 
-begin
-    // Read in memory from .mem file
-    $readmemh("C:/Users/epicj/OneDrive/Desktop/Lab 4 Project/dataMemoryTest.mem", memoryInitial);
+begin    // Read in memory from .mem file
+    $readmemh("data_memory.mem", memoryInitial);
 end
 
 always @ (posedge Clock) begin

@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 10/18/2023 05:44:54 PM
+// Create Date: 10/25/2023 12:14:29 PM
 // Design Name: 
-// Module Name: Mux32bit4to1
+// Module Name: SignExtend5to32
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,16 +20,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Mux32bit4to1(A, B, C, D, Out, Select);
-input [31:0] A, B, C, D;
-input Select;
-output reg [31:0] Out;
-always@(*) begin 
-    case(Select)
-        32'h00000001 : Out <= A;
-        32'h00000002 : Out <= B;
-        32'h00000004 : Out <= C;
-        32'h00000008 : Out <= D;
-        endcase
-    end
+module SignExtend5to32(inputVal, outputVal);
+input [4:0] inputVal;
+output reg [31:0] outputVal;
+
+always @(*) begin
+    outputVal <= {27'b000000000000000000000000000, inputVal};
+
+end
+
 endmodule

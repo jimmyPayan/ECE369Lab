@@ -20,20 +20,16 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Write_Back(RegWrite_In, MemToReg, R_Data, ALUResult, rDestSelected_in, RegWrite_Out, regWriteData, rDestSelected_Out);
-    input RegWrite_In, MemToReg;
+module Write_Back(Clock, RegWrite, MemToReg, R_Data, ALUResult, rDestSelected);
+    input Clock, RegWrite, MemToReg;
     input [31:0] ALUResult, R_Data;
-    input [4:0] rDestSelected_in;
-    output reg RegWrite_Out;
-    output reg rDestSelected_Out;
-    output reg [31:0] regWriteData;
+    input [4:0] rDestSelected;
+    wire [31:0] regWriteData;
+    wire [31:0] readData1X;
+    wire [31:0] readData2X;
 
-    always @(*) begin
-        RegWrite_Out <= RegWrite_In;
-        rDestSelected_Out <= rDestSelected_in;
-    end 
 
     Mux32bit2to1 mux(R_Data, ALUResult, regWriteData, MemToReg);
-    
+    UpdatedRegisterFile writereg(Clock, 0, 0, rDestSelected, regWriteData, RegWrite, readData1X, readData2X);
 
 endmodule
