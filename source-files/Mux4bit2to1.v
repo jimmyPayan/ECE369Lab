@@ -6,12 +6,9 @@ input Select;
 output reg [4:0] Out;
 
 always@(*) begin 
-    if (Select > 0) begin
-    Out <= B;
-    end
-    
-    else begin
-    Out <= A;
-    end
+    case (Select)
+    0: Out <= A;
+    1: Out <= B;
+    endcase
 end
 endmodule

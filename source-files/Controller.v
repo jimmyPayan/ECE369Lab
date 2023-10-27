@@ -79,7 +79,7 @@ case (Instruction)
             PCSrc <= 1;
             RegSrc0 <= 1;
             RegSrc1 <= 1;
-            ExtendSel <= 1; 
+            ExtendSel <= 1; //  FIX ME
             RegDst <= 1;
             ALUSrc0 <= 1;
             ALUSrc1 <= 2;
@@ -389,8 +389,25 @@ case (Instruction)
     end
         
     // Logical I-type instructions
-    // addi, ori, xori, slti
-    default: begin
+    // addi
+    6'b00100: begin
+        PCSrc <= 0;
+        RegSrc0 <= 0;
+        RegSrc1 <= 1;
+        ExtendSel <= 1;  
+        RegDst <= 0;
+        ALUSrc0 <= 0;
+        ALUSrc1 <= 1;
+        R_Enable <= 0;
+        MemToReg <= 1;
+        RegWrite <= 1;
+        R_Width <= 2'bXX;
+        W_Width <= 2'bXX;
+        InstrSel <= 4'bXXXX;
+    end   
+    
+    // ori
+    6'b00110: begin
         PCSrc <= 0;
         RegSrc0 <= 0;
         RegSrc1 <= 1;
@@ -399,13 +416,46 @@ case (Instruction)
         ALUSrc0 <= 0;
         ALUSrc1 <= 1;
         R_Enable <= 0;
-        W_Enable <= 0;
         MemToReg <= 1;
         RegWrite <= 1;
         R_Width <= 2'bXX;
         W_Width <= 2'bXX;
         InstrSel <= 4'bXXXX;
-    end    
+    end 
+    
+    // xori
+    6'b00110: begin
+        PCSrc <= 0;
+        RegSrc0 <= 0;
+        RegSrc1 <= 1;
+        ExtendSel <= 0;  
+        RegDst <= 0;
+        ALUSrc0 <= 0;
+        ALUSrc1 <= 1;
+        R_Enable <= 0;
+        MemToReg <= 1;
+        RegWrite <= 1;
+        R_Width <= 2'bXX;
+        W_Width <= 2'bXX;
+        InstrSel <= 4'bXXXX;
+    end 
+    
+    // slti
+    6'b00110: begin
+        PCSrc <= 0;
+        RegSrc0 <= 0;
+        RegSrc1 <= 1;
+        ExtendSel <= 1;  
+        RegDst <= 0;
+        ALUSrc0 <= 0;
+        ALUSrc1 <= 1;
+        R_Enable <= 0;
+        MemToReg <= 1;
+        RegWrite <= 1;
+        R_Width <= 2'bXX;
+        W_Width <= 2'bXX;
+        InstrSel <= 4'bXXXX;
+     end
 endcase
 end
 
