@@ -73,7 +73,6 @@ initial begin
 PCSel <= 0;
 BranchPC <= 32'hXXXXXXXX;
 
-$finish;
 end
 
 
