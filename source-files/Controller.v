@@ -390,7 +390,7 @@ case (Instruction)
         
     // Logical I-type instructions
     // addi
-    6'b00100: begin
+    6'b001000: begin
         PCSrc <= 0;
         RegSrc0 <= 0;
         RegSrc1 <= 1;
@@ -407,7 +407,7 @@ case (Instruction)
     end   
     
     // ori
-    6'b00110: begin
+    6'b001101: begin
         PCSrc <= 0;
         RegSrc0 <= 0;
         RegSrc1 <= 1;
@@ -424,7 +424,7 @@ case (Instruction)
     end 
     
     // xori
-    6'b00110: begin
+    6'b001110: begin
         PCSrc <= 0;
         RegSrc0 <= 0;
         RegSrc1 <= 1;
@@ -441,7 +441,7 @@ case (Instruction)
     end 
     
     // slti
-    6'b00110: begin
+    6'b001010: begin
         PCSrc <= 0;
         RegSrc0 <= 0;
         RegSrc1 <= 1;
