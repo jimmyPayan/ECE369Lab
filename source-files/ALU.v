@@ -30,7 +30,7 @@ module ALU(ALUControl, A, B, ALUResult, Zero);
 	output reg Zero;	    // Zero=1 if ALUResult == 0
 
     // Combinational, no need for Clock
-    always begin
+    always @ (*) begin
     
     // Assign ALUResult register
     case (ALUControl)   
@@ -44,7 +44,7 @@ module ALU(ALUControl, A, B, ALUResult, Zero);
         7: ALUResult <= B << A; // sll
         8: ALUResult <= B >> A; // srl
         9: begin if (A < B) ALUResult <= 1; else ALUResult <= 0; end // slt
-        10: ALUResult <= 0; // nop
+        default: ALUResult <= 32'hXXXXXXXX; // nop
     endcase
     
     // Assign Zero bit

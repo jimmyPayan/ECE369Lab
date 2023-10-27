@@ -48,11 +48,11 @@ output reg [31:0] instructionOut; // Instruction to be fetched by the processor
 reg [31:0] memory [0:1023]; // Array holding all instructions to be executed by the processor
 
 initial begin
-$readmemh("instruction_memory_test.mem", memory); 
+$readmemh("instruction_memory.mem", memory); 
 end
 
 always @ (programCounterIn) begin
-    instructionOut = memory[programCounterIn];
+    instructionOut <= memory[programCounterIn];
 end
 
 endmodule

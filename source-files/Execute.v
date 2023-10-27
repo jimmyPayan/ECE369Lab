@@ -24,8 +24,8 @@ module Execute(
 RegDst, ALUSrc0, ALUSrc1, Shamt,
 Reg_Data1, Reg_Data2, Imm32b, PCPlusFour, Instruction, Opcode, instr_index, rt, rd,
 
-Zero, ALUResult,
-j_sll_two, PC_Plus_Branch, RegDestSelected
+Zero_output, ALUResult_output,
+j_sll_two_output, PC_Plus_Branch_output, RegDestSelected_output
 );
 
 input ALUSrc0, RegDst;
@@ -40,11 +40,16 @@ wire [31:0] ALU_A, ALU_B;
 wire [31:0] Imm32b_sll_two;
 wire [31:0] Shamtout;
 
-output reg Zero;
-output reg [31:0] ALUResult;
-output reg [31:0] PC_Plus_Branch;
-output reg [27:0] j_sll_two;
-output reg [4:0] RegDestSelected;
+wire Zero;
+wire [31:0] ALUResult;
+wire [31:0] PC_Plus_Branch;
+wire [27:0] j_sll_two;
+wire [4:0] RegDestSelected;
+output reg Zero_output;
+output reg [31:0] ALUResult_output;
+output reg [31:0] PC_Plus_Branch_output;
+output reg [27:0] j_sll_two_output;
+output reg [4:0] RegDestSelected_output;
 
 SignExtend5to32 shamtExtend(Shamt, Shamtout);
 Mux32bit2to1 ALU_A_Mux(Reg_Data1, Shamtout, ALU_A, ALUSrc0);
@@ -55,4 +60,13 @@ LeftShift2AndExtend SLL_j(instr_index, j_sll_two);
 LeftShift2 SLL_Imm(Imm32b, Imm32b_sll_two);
 Add Branch_Adder(PCPlusFour, Imm32b_sll_two, PC_Plus_Branch);
 Mux5bit2to1 regDest_Mux(rt, rd, RegDestSelected, RegDst);
+
+always @(*) begin
+Zero_output <= Zero;
+ALUResult_output <= ALUResult;
+PC_Plus_Branch_output <= PC_Plus_Branch;
+j_sll_two_output <= j_sll_two;
+RegDestSelected_output <= RegDestSelected;
+end
+
 endmodule

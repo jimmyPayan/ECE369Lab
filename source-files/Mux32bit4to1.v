@@ -22,14 +22,14 @@
 
 module Mux32bit4to1(A, B, C, D, Out, Select);
 input [31:0] A, B, C, D;
-input Select;
+input [1:0] Select;
 output reg [31:0] Out;
 always@(*) begin 
     case(Select)
-        32'h00000001 : Out <= A;
-        32'h00000002 : Out <= B;
-        32'h00000004 : Out <= C;
-        32'h00000008 : Out <= D;
+        0 : Out <= A;
+        1 : Out <= B;
+        2 : Out <= C;
+        3 : Out <= D;
         endcase
     end
 endmodule

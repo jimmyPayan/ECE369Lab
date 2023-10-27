@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 10/21/2023 07:30:51 PM
+// Create Date: 10/26/2023 09:33:23 PM
 // Design Name: 
-// Module Name: Plus4Adder
+// Module Name: TopLevelTestbench
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,13 +20,18 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Plus4Adder(ValueIn, ValuePlus4);
-
-input [31:0] ValueIn;
-output reg [31:0] ValuePlus4;
-
-always @ (ValueIn) begin
-ValuePlus4 <= ValueIn + 4;
-end
+module TopLevelTestbench();
+    reg Clock;
+    wire [31:0] ProgramCounter;
+    wire [31:0] WriteData;
+    
+    ProcessorTopFileMIPS test(Clock, ProgramCounter, WriteData);
+    
+    always begin
+        Clock <= 0;
+        #100;
+        Clock <= 1;
+        #100;
+    end 
 
 endmodule

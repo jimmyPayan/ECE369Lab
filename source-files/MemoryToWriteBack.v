@@ -41,7 +41,7 @@ ALUResult_Out <= ALUResult_In;
 R_Data_Out <= R_Data_In;
 rDestSelected_Out <= rDestSelected_in;
 PCSrc_Out <= PCSrc_in;
-PCNew_Out <= PCSrc_in;
+PCNew_Out <= PCNew_in;
 end
 
 endmodule

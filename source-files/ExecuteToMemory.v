@@ -20,26 +20,30 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module ExecuteToMemory
-(Clock, 
-R_EnableIn, W_EnableIn, BranchSelIn, RegWriteIn, MemToRegIn, ALUResult_In, rDestSelected_in, R_Width_in, W_Width_in, PC_plus_branch_in, Zero_in, RegData2_in, j_sll_two_in, 
-R_EnableOut, W_EnableOut, BranchSelOut, RegWriteOut, MemToRegOut, ALUResult_Out, rDestSelected_Out, R_Width_Out, W_Width_Out, PC_plus_branch_out, Zero_out, RegData2_out, j_sll_two_out
+module ExecuteToMemory(Clock, 
+R_EnableIn, W_EnableIn, BranchSelIn, RegWriteIn, MemToRegIn, ALUResultIn, rDestSelectedIn, 
+R_WidthIn, W_WidthIn, PCPlusBranchIn, ZeroIn, RegData2In, jumpLeftShiftedTwoIn, 
+
+R_EnableOut, W_EnableOut, BranchSelOut, RegWriteOut, MemToRegOut, ALUResultOut, rDestSelectedOut, 
+R_WidthOut, W_WidthOut, PCPlusBranchOut, ZeroOut, RegData2Out, jumpLeftShiftedTwoOut
 );
 
 input Clock;
-input R_EnableIn, W_EnableIn, RegWriteIn, MemToRegIn, Zero_in;
+input R_EnableIn, W_EnableIn, RegWriteIn, MemToRegIn, ZeroIn;
 input [3:0] BranchSelIn;
-input [31:0] ALUResult_In, PC_plus_branch_in, RegData2_in;
-input [4:0] rDestSelected_in;
-input [1:0] R_Width_in, W_Width_in;
-input [27:0] j_sll_two_in;
+input [31:0] ALUResultIn, PCPlusBranchIn, RegData2In;
+input [4:0] rDestSelectedIn;
+input [1:0] R_WidthIn, W_WidthIn;
+input [27:0] jumpLeftShiftedTwoIn;
 
-output reg R_EnableOut, W_EnableOut, RegWriteOut, MemToRegOut, Zero_out;
+output reg R_EnableOut, W_EnableOut, RegWriteOut, MemToRegOut, ZeroOut;
 output reg [3:0] BranchSelOut;
-output reg [31:0] ALUResult_Out, PC_plus_branch_out, RegData2_out;
-output reg [4:0] rDestSelected_Out;
-output reg [1:0] R_Width_Out, W_Width_Out;
-output reg [27:0] j_sll_two_out;
+output reg [31:0] ALUResultOut;
+output reg [31:0] PCPlusBranchOut;
+output reg [31:0] RegData2Out;
+output reg [4:0] rDestSelectedOut;
+output reg [1:0] R_WidthOut, W_WidthOut;
+output reg [27:0] jumpLeftShiftedTwoOut;
 
 always @ (posedge Clock) begin 
 R_EnableOut <= R_EnableIn;
@@ -47,15 +51,15 @@ W_EnableOut <= W_EnableIn;
 BranchSelOut <= BranchSelIn;
 RegWriteOut <= RegWriteIn;
 MemToRegOut <= MemToRegIn;
-ALUResult_Out <= ALUResult_In;
-PC_plus_branch_out <= PC_plus_branch_in;
-RegData2_out <= RegData2_in;
-rDestSelected_Out <= rDestSelected_in;
-R_Width_Out <= R_Width_in;
-W_Width_Out <= W_Width_in;
-PC_plus_branch_out <= PC_plus_branch_in;
-Zero_out <= Zero_in;
-j_sll_two_out <= j_sll_two_in;
+ALUResultOut <= ALUResultIn;
+PCPlusBranchOut <= PCPlusBranchIn;
+RegData2Out <= RegData2In;
+rDestSelectedOut <= rDestSelectedIn;
+R_WidthOut <= R_WidthIn;
+W_WidthOut <= W_WidthIn;
+PCPlusBranchOut <= PCPlusBranchIn;
+ZeroOut <= ZeroIn;
+jumpLeftShiftedTwoOut <= jumpLeftShiftedTwoIn;
 end
 
 endmodule

@@ -28,8 +28,9 @@ module PCSrcControl(BranchSel, Zero, ALUResult, Imm, AddResult, PCSrc, PCNew);
     output reg PCSrc;
     output reg [31:0] PCNew;
     
-    always @(BranchSel) begin
-        case(BranchSel) 
+    // Make it always @ (*), functionality should stay the same though
+    always @ (*) begin
+        case (BranchSel) 
             4'b0000: 
                 if (ALUResult >= 0) begin 
                     PCSrc <= 1; 

@@ -49,12 +49,14 @@ output reg [1:0] R_Width;
 output reg [1:0] W_Width;
 output reg [3:0] InstrSel;
 
-always @(Instruction) begin
+//always @(Instruction) begin 
+// Since we have case(opcode) and case(branchSignal) we should do always @ (*), functionality should be the same
+always @ (*) begin
 case (Instruction)
     // R-type instructions (and jump register since that's R-type for some reason ???)
     
     6'b000000: 
-        case (Opcode)
+        begin case (Opcode)
         // jr
             6'b001000: begin
             PCSrc <= 1;
@@ -68,10 +70,10 @@ case (Instruction)
             W_Enable <= 0;
             MemToReg <= 0;
             RegWrite <= 0;
-            R_Width <= 10;
-            W_Width <= 10;
+            R_Width <= 2'bXX;
+            W_Width <= 2'bXX;
             InstrSel <= 7;
-        end
+            end
         // sll
             6'b000000: begin
             PCSrc <= 1;
@@ -86,9 +88,9 @@ case (Instruction)
             W_Enable <= 0;
             MemToReg <= 0;
             RegWrite <= 0;
-            R_Width <= 10;
-            W_Width <= 10;
-            InstrSel <= 7; 
+            R_Width <= 2'bXX;
+            W_Width <= 2'bXX;
+            InstrSel <= 4'bXXXX; 
             end
         // srl
             6'b000010: begin
@@ -103,9 +105,9 @@ case (Instruction)
             W_Enable <= 0;
             MemToReg <= 0;
             RegWrite <= 0;
-            R_Width <= 10;
-            W_Width <= 10;
-            InstrSel <= 7; 
+            R_Width <= 2'bXX;
+            W_Width <= 2'bXX;
+            InstrSel <= 4'bXXXX; 
             end
         // Not sll / srl
             default: begin
@@ -120,11 +122,11 @@ case (Instruction)
             W_Enable <= 0;
             MemToReg <= 0;
             RegWrite <= 0;
-            R_Width <= 10;
-            W_Width <= 10;          
-            InstrSel <= 7;  
-        end
-        endcase
+            R_Width <= 2'bXX;
+            W_Width <= 2'bXX;          
+            InstrSel <= 4'bXXXX;  
+            end
+    endcase end
     
     // mul (uses SPECIAL2 = 6'b011100, not SPECIAL = 6'b000000)
     // this is the only instruction that uses SPECIAL2 but we can expand if needed
@@ -140,9 +142,9 @@ case (Instruction)
             W_Enable <= 0;
             MemToReg <= 0;
             RegWrite <= 1;
-            R_Width <= 10;
-            W_Width <= 10;
-            InstrSel <= 10;      
+            R_Width <= 2'bXX;
+            W_Width <= 2'bXX;
+            InstrSel <= 4'bXXXX;      
     end  
     
     // Memory Instructions
@@ -160,8 +162,8 @@ case (Instruction)
             MemToReg <= 0;
             RegWrite <= 1;
             R_Width <= 0;
-            W_Width <= 10;
-            InstrSel <= 10;          
+            W_Width <= 2'bXX;
+            InstrSel <= 4'bXXXX;          
     end
 
     // lh
@@ -178,8 +180,8 @@ case (Instruction)
             MemToReg <= 0;
             RegWrite <= 1;
             R_Width <= 1;
-            W_Width <= 10;
-            InstrSel <= 10;          
+            W_Width <= 2'bXX;
+            InstrSel <= 4'bXXXX;          
     end
 
     // lb
@@ -196,8 +198,8 @@ case (Instruction)
             MemToReg <= 0;
             RegWrite <= 1;
             R_Width <= 2;
-            W_Width <= 10;
-            InstrSel <= 10;          
+            W_Width <= 2'bXX;
+            InstrSel <= 4'bXXXX;          
     end
     
     // sw
@@ -213,9 +215,9 @@ case (Instruction)
             W_Enable <= 1;
             MemToReg <= 0;
             RegWrite <= 0;
-            R_Width <= 10;
+            R_Width <= 2'bXX;
             W_Width <= 0;
-            InstrSel <= 10;  
+            InstrSel <= 4'bXXXX;  
     end
     
     // sh
@@ -231,13 +233,13 @@ case (Instruction)
             W_Enable <= 1;
             MemToReg <= 0;
             RegWrite <= 0;
-            R_Width <= 10;
+            R_Width <= 2'bXX;
             W_Width <= 1;
-            InstrSel <= 10;  
+            InstrSel <= 4'bXXXX;  
     end
 
     // sb
-    6'b101011: begin
+    6'b101000: begin
             PCSrc <= 0;
             RegSrc0 <= 0;
             RegSrc1 <= 1;
@@ -249,9 +251,9 @@ case (Instruction)
             W_Enable <= 1;
             MemToReg <= 0;
             RegWrite <= 0;
-            R_Width <= 10;
+            R_Width <= 2'bXX;
             W_Width <= 2;
-            InstrSel <= 10;  
+            InstrSel <= 4'bXXXX;  
     end
     
     // Branch and Jump instructions
@@ -268,12 +270,13 @@ case (Instruction)
             W_Enable <= 0;
             MemToReg <= 0;
             RegWrite <= 0;
-            R_Width <= 10;
-            W_Width <= 10;
+            R_Width <= 2'bXX;
+            W_Width <= 2'bXX;
             
             case (BranchSignal)
             0: InstrSel <= 5;
             1: InstrSel <= 0;
+            default: InstrSel <= 4'bXXXX;
             endcase
     end
     
@@ -290,8 +293,8 @@ case (Instruction)
             W_Enable <= 0;
             MemToReg <= 0;
             RegWrite <= 0;
-            R_Width <= 10;
-            W_Width <= 10;
+            R_Width <= 2'bXX;
+            W_Width <= 2'bXX;
             InstrSel <= 1;     
     end
     
@@ -308,8 +311,8 @@ case (Instruction)
             W_Enable <= 0;
             MemToReg <= 0;
             RegWrite <= 0;
-            R_Width <= 10;
-            W_Width <= 10;
+            R_Width <= 2'bXX;
+            W_Width <= 2'bXX;
             InstrSel <= 2;     
     end
     
@@ -326,8 +329,8 @@ case (Instruction)
             W_Enable <= 0;
             MemToReg <= 0;
             RegWrite <= 0;
-            R_Width <= 10;
-            W_Width <= 10;
+            R_Width <= 2'bXX;
+            W_Width <= 2'bXX;
             InstrSel <= 3;     
     end
     
@@ -344,8 +347,8 @@ case (Instruction)
             W_Enable <= 0;
             MemToReg <= 0;
             RegWrite <= 0;
-            R_Width <= 10;
-            W_Width <= 10;
+            R_Width <= 2'bXX;
+            W_Width <= 2'bXX;
             InstrSel <= 4;    
     end
     
@@ -362,8 +365,8 @@ case (Instruction)
             W_Enable <= 0;
             MemToReg <= 0;
             RegWrite <= 0;
-            R_Width <= 10;
-            W_Width <= 10;
+            R_Width <= 2'bXX;
+            W_Width <= 2'bXX;
             InstrSel <= 6;    
     end
     
@@ -380,8 +383,8 @@ case (Instruction)
             W_Enable <= 0;
             MemToReg <= 0;
             RegWrite <= 0;
-            R_Width <= 10;
-            W_Width <= 10;
+            R_Width <= 2'bXX;
+            W_Width <= 2'bXX;
             InstrSel <= 8;    
     end
         
@@ -399,9 +402,9 @@ case (Instruction)
         W_Enable <= 0;
         MemToReg <= 1;
         RegWrite <= 1;
-        R_Width <= 10;
-        W_Width <= 10;
-        InstrSel <= 10;
+        R_Width <= 2'bXX;
+        W_Width <= 2'bXX;
+        InstrSel <= 4'bXXXX;
     end    
 endcase
 end
