@@ -43,6 +43,11 @@ j_sll_two_output, PC_Plus_Branch_output, RegDestSelected_output
 
 initial begin
 
+// add $16, $8, $12
+RegDst <= 0;
+ALUSrc0 <= 0;
+ALUSrc1 <= 1;
+Shamt <= 16;
 end
 
 endmodule
