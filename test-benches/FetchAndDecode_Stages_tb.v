@@ -67,8 +67,11 @@ Clock <= 1;
 #100;
 end
 
+// Test values here
 initial begin
-#100;
+
+
+
 $finish;
 end
 
