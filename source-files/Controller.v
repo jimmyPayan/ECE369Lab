@@ -456,6 +456,21 @@ case (Instruction)
         W_Width <= 2'bXX;
         InstrSel <= 4'bXXXX;
      end
+     default: begin 
+        PCSrc <= 0;
+        RegSrc0 <= 0;
+        RegSrc1 <= 0;
+        ExtendSel <= 0;  
+        RegDst <= 0;
+        ALUSrc0 <= 0;
+        ALUSrc1 <= 0;
+        R_Enable <= 0;
+        MemToReg <= 0;
+        RegWrite <= 0;
+        R_Width <= 0;
+        W_Width <= 0;
+        InstrSel <= 0;    
+     end
 endcase
 end
 

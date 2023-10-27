@@ -50,12 +50,12 @@ wire [1:0] R_Width_ID, W_Width_ID, ALUSrc1_ID;
 wire [3:0] BranchSel_ID;
 wire [31:0] Reg_Data1_ID, Reg_Data2_ID, Imm32b_ID;
 wire [4:0] RegDestSelected_WB;
-wire [31:0] regWriteData;
-wire RegWriteWB;
+wire [31:0] regWriteData_WB;
+wire regWrite_WB;
 
 Instruction_Decode ID_Stage (
 Clock, 
-Instruction_ID, RegDestSelected_WB, regWriteData, RegWriteWB, // Inputs
+Instruction_ID, RegDestSelected_WB, regWriteData_WB, regWrite_WB, // Inputs
 
 PCSel_ID, RegDst_ID, ALUSrc0_ID, ALUSrc1_ID, R_Enable_ID, W_Enable_ID, // Controller Outputs
 R_Width_ID, W_Width_ID, MemToReg_ID, RegWrite_ID, BranchSel_ID, // Controller Outputs cont.
@@ -98,6 +98,7 @@ Zero_EX, ALUResult_EX,
 j_sll_two_EX, PC_Plus_Branch_EX, RegDestSelected_EX
 );
 
+// Wires used for the first time in EX/MEM 
 wire R_Enable_MEM, W_Enable_MEM, RegWrite_MEM, MemToReg_MEM, Zero_MEM;
 wire [3:0] BranchSel_MEM;
 wire [1:0] R_Width_MEM, W_Width_MEM;
@@ -114,32 +115,34 @@ R_Enable_MEM, W_Enable_MEM, BranchSel_MEM, RegWrite_MEM, MemToReg_MEM, ALUResult
 R_Width_MEM, W_Width_MEM, PC_Plus_Branch_MEM, Zero_MEM, Reg_Data2_MEM, j_sll_two_MEM
 );
 
-wire [31:0] R_Data, PCNew;
+// Wires used for the first time in Memory Stage
+wire [31:0] R_Data, BranchPC_MEM;
+wire PCSel_MEM;
 
 Memory MEM_Stage(
 Clock,
 R_Enable_MEM, W_Enable_MEM, R_Width_MEM, W_Width, BranchSel_MEM, PC_Plus_Branch_MEM, Zero_MEM, ALUResult_MEM, 
-Reg_Data2_MEM, j_sll_two_MEM, R_Data, PCNew, PCSel_IF
+Reg_Data2_MEM, j_sll_two_MEM, R_Data, BranchPC_MEM, PCSel_MEM
 );
 
-wire RegWrite_WB, MemToReg_WB; 
+wire regWrite_WB, MemToReg_WB; 
 wire [31:0] R_Data_WB, ALUResult_WB;
 //wire [4:0] RegDestSelected_WB;
 
 MemoryToWriteBack MEM_WB_Pipeline(
 Clock,
-RegWrite_MEM, MemToReg_MEM, R_Data, ALUResult_MEM, RegDestSelected_MEM, PCNew, PCSrc,
-RegWrite_WB, MemToReg_WB, R_Data_WB, ALUResult_WB, RegDestSelected_WB, BranchPC_IF, PCSel_IF
+RegWrite_MEM, MemToReg_MEM, R_Data, ALUResult_MEM, RegDestSelected_MEM, BranchPC_MEM, PCSel_MEM,
+regWrite_WB, MemToReg_WB, R_Data_WB, ALUResult_WB, RegDestSelected_WB, BranchPC_IF, PCSel_IF
 );
 
 Write_Back WB_Stage(
 R_Data_WB, ALUResult_WB, MemToReg_WB, // Inputs
 
-regWriteData // Outputs
+regWriteData_WB // Outputs
 );
 always @ (*) begin
 PC_To_Instr_Mem_output <= PC_To_Instr_Mem_IF;
-regWriteData_output <= regWriteData;
+regWriteData_output <= regWriteData_WB;
 end
 
 endmodule
