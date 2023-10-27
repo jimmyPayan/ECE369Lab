@@ -29,7 +29,7 @@ module Instruction_Decode_tb();
     wire [1:0] ALUSrc1, R_Width, W_Width;
     wire [31:0] Imm32b, Reg_Data2, Reg_Data1;
     
-    Instruction_Decode(
+    Instruction_Decode test(
     Clock, 
     Instruction, rDestSelected, regWriteData, RegWrite,
     PCSel, RegDst, ALUSrc0, ALUSrc1, R_Enable, W_Enable, 
@@ -49,15 +49,16 @@ module Instruction_Decode_tb();
         rDestSelected <= 4'b00000;
         RegWrite <= 0;
         regWriteData <= 32'h00000000;
-        #100
+        #100;
         Instruction <= 32'h2151001A;
-        #100
+        #100;
         Instruction <= 32'h02119022;
-        #100
+        #100;
         Instruction <= 32'h72119802;
-        #100
-        Instruction <= 32'h8E140000;
-        #100 
+        #100;
+        Instruction <= 32'h8D940000;
+        #100;
+
     end
     
     
