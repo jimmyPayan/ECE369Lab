@@ -46,8 +46,8 @@ initial begin
 // add $16, $8, $12
 RegDst <= 0;
 ALUSrc0 <= 0;
-ALUSrc1 <= 0;
-Shamt <= 
+ALUSrc1 <= 1;
+Shamt <= 16;
 end
 
 endmodule

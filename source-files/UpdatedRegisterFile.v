@@ -56,7 +56,7 @@ ReadData1, ReadData2 // Outputs
         Registers[28] <= 0;
         
         // Stack pointer set to top of stack
-        Registers[29] <= 1023;
+        Registers[29] <= 1020;
         
         // Frame Pointer
         Registers[30] <= 0;
