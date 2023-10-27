@@ -87,7 +87,7 @@ case (Instruction)
             R_Enable <= 0; 
             W_Enable <= 0;
             MemToReg <= 0;
-            RegWrite <= 0;
+            RegWrite <= 1;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
             InstrSel <= 4'bXXXX; 
@@ -104,7 +104,7 @@ case (Instruction)
             R_Enable <= 0; 
             W_Enable <= 0;
             MemToReg <= 0;
-            RegWrite <= 0;
+            RegWrite <= 1;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
             InstrSel <= 4'bXXXX; 
@@ -121,7 +121,7 @@ case (Instruction)
             R_Enable <= 0; 
             W_Enable <= 0;
             MemToReg <= 0;
-            RegWrite <= 0;
+            RegWrite <= 1;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;          
             InstrSel <= 4'bXXXX;  
@@ -382,7 +382,7 @@ case (Instruction)
             R_Enable <= 0; 
             W_Enable <= 0;
             MemToReg <= 0;
-            RegWrite <= 0;
+            RegWrite <= 1;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
             InstrSel <= 8;    
