@@ -52,7 +52,7 @@ $readmemh("instruction_memory.mem", memory);
 end
 
 always @ (programCounterIn) begin
-    instructionOut <= memory[programCounterIn];
+    instructionOut <= memory[programCounterIn / 4];
 end
 
 endmodule

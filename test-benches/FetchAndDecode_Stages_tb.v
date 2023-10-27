@@ -69,8 +69,9 @@ end
 
 // Test values here
 initial begin
-
-
+// add $16, $8, $12
+PCSel <= 0;
+BranchPC <= 32'hXXXXXXXX;
 
 $finish;
 end

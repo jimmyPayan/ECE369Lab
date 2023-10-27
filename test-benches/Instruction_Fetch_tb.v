@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 10/19/2023 08:51:37 PM
+// Create Date: 10/27/2023 02:13:50 PM
 // Design Name: 
-// Module Name: InstructionMemory_tb
+// Module Name: Instruction_Fetch_tb
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,26 +20,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module InstructionMemory_tb();
+module Instruction_Fetch_tb();
 
-reg [31:0] programCounterIn;
-wire [31:0] instructionOut;
-
-InstructionMemory InstructionMemTest(programCounterIn, instructionOut);
-
-initial begin
-programCounterIn <= 0;
-#50;
-programCounterIn <= 4;
-#50;
-programCounterIn <= 8;
-#50
-programCounterIn <= 12;
-#50;
-programCounterIn <= 24;
-#50;
-
-end
 
 
 endmodule
