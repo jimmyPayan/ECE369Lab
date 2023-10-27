@@ -76,8 +76,8 @@ case (Instruction)
             end
         // sll
             6'b000000: begin
-            PCSrc <= 1;
-            RegSrc0 <= 1;
+            PCSrc <= 0;
+            RegSrc0 <= 0;
             RegSrc1 <= 1;
             ExtendSel <= 1; //  FIX ME
             RegDst <= 1;
@@ -94,8 +94,8 @@ case (Instruction)
             end
         // srl
             6'b000010: begin
-            PCSrc <= 1;
-            RegSrc0 <= 1;
+            PCSrc <= 0;
+            RegSrc0 <= 0;
             RegSrc1 <= 1; 
             RegDst <= 1;
             ExtendSel <= 0; 
@@ -111,8 +111,8 @@ case (Instruction)
             end
         // Not sll / srl
             default: begin
-            PCSrc <= 1;
-            RegSrc0 <= 1;
+            PCSrc <= 0;
+            RegSrc0 <= 0;
             RegSrc1 <= 1;
             ExtendSel <= 0;  
             RegDst <= 1;
