@@ -52,34 +52,38 @@ always @ (posedge Clock) begin
         0: R_data = memoryInitial[Address >> 2];
         1: 
             case (Address - ((Address >> 2) << 2))
-                0:  R_data = memoryInitial[Address >> 2][31:16];
-                2:  R_data = memoryInitial[Address >> 2][15:0];
+                0:  R_data <= memoryInitial[Address >> 2][31:16];
+                2:  R_data <= memoryInitial[Address >> 2][15:0];
+                default: R_data <= 32'hXXXXZZZZ;
             endcase
         2: 
             case (Address - ((Address >> 2) << 2))
-                0: R_data = memoryInitial[Address >> 2][31:24];
-                1: R_data = memoryInitial[Address >> 2][23:16];
-                2: R_data = memoryInitial[Address >> 2][15:8];
-                3: R_data = memoryInitial[Address >> 2][7:0];
+                0: R_data <= memoryInitial[Address >> 2][31:24];
+                1: R_data <= memoryInitial[Address >> 2][23:16];
+                2: R_data <= memoryInitial[Address >> 2][15:8];
+                3: R_data <= memoryInitial[Address >> 2][7:0];
+                default: R_data <= 32'hXXXXZZZZ;
             endcase 
         endcase
     end 
     if (W_en)
     begin
         case (memWriteCommand)
-        0: memoryInitial[Address >> 2] = W_data;
+        0: memoryInitial[Address >> 2] <= W_data;
         1: 
             case (Address - ((Address >> 2) << 2))
-                0: memoryInitial[Address >> 2][15:0] = W_data[15:0];
-                2: memoryInitial[Address >> 2][31:16] = W_data[15:0];
+                0: memoryInitial[Address >> 2][15:0] <= W_data[15:0];
+                2: memoryInitial[Address >> 2][31:16] <= W_data[15:0];
+                default: begin end
             endcase
         2: 
             case (Address - ((Address >> 2) << 2))
-                0: memoryInitial[Address >> 2][31:24] = W_data[7:0];
-                1: memoryInitial[Address >> 2][23:16] = W_data[7:0];
-                2: memoryInitial[Address >> 2][15:8] = W_data[7:0];
-                3: memoryInitial[Address >> 2][7:0] = W_data[7:0];
-            endcase  
+                0: memoryInitial[Address >> 2][31:24] <= W_data[7:0];
+                1: memoryInitial[Address >> 2][23:16] <= W_data[7:0];
+                2: memoryInitial[Address >> 2][15:8] <= W_data[7:0];
+                3: memoryInitial[Address >> 2][7:0] <= W_data[7:0];
+            endcase 
+        default: begin end
         endcase
     end
 

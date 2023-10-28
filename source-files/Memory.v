@@ -36,7 +36,13 @@ R_Data_output, PCNew_output, PCSrc_output
     output reg [31:0] R_Data_output, PCNew_output;
     output reg PCSrc_output;
     
-    DataMemory Data_Memory(Clock, W_Enable, R_Enable, ALUResult, R_Data, Reg_Data2, R_Width, W_Width);
+    DataMemory Data_Memory(
+    Clock, 
+    W_Enable, R_Enable, 
+    ALUResult, 
+    R_Data, Reg_Data2, 
+    R_Width, W_Width);
+
     PCSrcControl PCSrc_Control(BranchSel, Zero, ALUResult, j_sll_two, PC_Plus_Branch, PCSrc, PCNew);
     
     always @ (*) begin

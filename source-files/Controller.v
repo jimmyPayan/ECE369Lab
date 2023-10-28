@@ -103,7 +103,7 @@ case (Instruction)
             ALUSrc1 <= 2;           
             R_Enable <= 0; 
             W_Enable <= 0;
-            MemToReg <= 0;
+            MemToReg <= 1;
             RegWrite <= 1;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
@@ -120,7 +120,7 @@ case (Instruction)
             ALUSrc1 <= 2;
             R_Enable <= 0; 
             W_Enable <= 0;
-            MemToReg <= 0;
+            MemToReg <= 1;
             RegWrite <= 1;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;          
@@ -140,7 +140,7 @@ case (Instruction)
             ALUSrc1 <= 0;
             R_Enable <= 0; 
             W_Enable <= 0;
-            MemToReg <= 0;
+            MemToReg <= 1;
             RegWrite <= 1;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;

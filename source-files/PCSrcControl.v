@@ -98,7 +98,7 @@ module PCSrcControl(BranchSel, Zero, ALUResult, Imm, AddResult, PCSrc, PCNew);
                 PCNew <= AddResult;
                 end               
             default: begin
-                PCSrc <= 1;
+                PCSrc <= 0;
                 PCNew <= 32'h00000000;
                 end           
           endcase              
