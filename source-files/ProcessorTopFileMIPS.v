@@ -137,6 +137,7 @@ R_Data_WB, ALUResult_WB, MemToReg_WB, // Inputs
 
 regWriteData // Outputs
 );
+
 always @ (*) begin
 PC_To_Instr_Mem_output <= PC_To_Instr_Mem_IF;
 regWriteData_output <= regWriteData;
