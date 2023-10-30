@@ -23,7 +23,7 @@
 module Controller(
 Instruction, BranchSignal, Opcode, // Inputs
 PCSrc, 
-RegSrc0, RegSrc1, ExtendSel,
+RegSrc0, RegSrc1, /*ExtendSel,*/
 RegDst, ALUSrc0, ALUSrc1,
 R_Enable, W_Enable, MemToReg, RegWrite, R_Width, W_Width, InstrSel // Outputs
 );
@@ -36,7 +36,7 @@ output reg PCSrc;
 
 output reg RegSrc0;
 output reg RegSrc1;
-output reg ExtendSel;
+//output reg ExtendSel;
 
 output reg RegDst;
 output reg ALUSrc0;
@@ -62,7 +62,7 @@ case (Instruction)
             PCSrc <= 1;
             RegSrc0 <= 1;
             RegSrc1 <= 1; 
-            ExtendSel <= 0;
+            //ExtendSel <= 0;
             RegDst <= 1;
             ALUSrc0 <= 0;
             ALUSrc1 <= 2;
@@ -79,11 +79,10 @@ case (Instruction)
             PCSrc <= 0;
             RegSrc0 <= 0;
             RegSrc1 <= 1;
-            ExtendSel <= 1; //  FIX ME
+            //ExtendSel <= 1; //  FIX ME
             RegDst <= 1;
             ALUSrc0 <= 1;
             ALUSrc1 <= 2;
-            ExtendSel <= 0; 
             R_Enable <= 0; 
             W_Enable <= 0;
             MemToReg <= 0;
@@ -98,7 +97,7 @@ case (Instruction)
             RegSrc0 <= 0;
             RegSrc1 <= 1; 
             RegDst <= 1;
-            ExtendSel <= 0; 
+            //ExtendSel <= 0; 
             ALUSrc0 <= 1;
             ALUSrc1 <= 2;           
             R_Enable <= 0; 
@@ -114,7 +113,7 @@ case (Instruction)
             PCSrc <= 0;
             RegSrc0 <= 0;
             RegSrc1 <= 1;
-            ExtendSel <= 0;  
+            //ExtendSel <= 0;  
             RegDst <= 1;
             ALUSrc0 <= 0;
             ALUSrc1 <= 2;
@@ -134,7 +133,7 @@ case (Instruction)
             PCSrc <= 0;
             RegSrc0 <= 0;
             RegSrc1 <= 1; 
-            ExtendSel <= 0; 
+            //ExtendSel <= 0; 
             RegDst <= 1;
             ALUSrc0 <= 0;
             ALUSrc1 <= 0;
@@ -153,7 +152,7 @@ case (Instruction)
             PCSrc <= 0;
             RegSrc0 <= 0;
             RegSrc1 <= 1;
-            ExtendSel <= 1;  
+            //ExtendSel <= 1;  
             RegDst <= 0;
             ALUSrc0 <= 0;
             ALUSrc1 <= 1;
@@ -171,7 +170,7 @@ case (Instruction)
             PCSrc <= 0;
             RegSrc0 <= 0;
             RegSrc1 <= 1;
-            ExtendSel <= 1;   
+            //ExtendSel <= 1;   
             RegDst <= 0;
             ALUSrc0 <= 0;
             ALUSrc1 <= 1;
@@ -189,7 +188,7 @@ case (Instruction)
             PCSrc <= 0;
             RegSrc0 <= 0;
             RegSrc1 <= 1;
-            ExtendSel <= 1;   
+            //ExtendSel <= 1;   
             RegDst <= 0;
             ALUSrc0 <= 0;
             ALUSrc1 <= 1;
@@ -207,7 +206,7 @@ case (Instruction)
             PCSrc <= 0;
             RegSrc0 <= 0;
             RegSrc1 <= 1; 
-            ExtendSel <= 1;  
+            //ExtendSel <= 1;  
             RegDst <= 0;
             ALUSrc0 <= 0;
             ALUSrc1 <= 1;
@@ -225,7 +224,7 @@ case (Instruction)
             PCSrc <= 0;
             RegSrc0 <= 0;
             RegSrc1 <= 1; 
-            ExtendSel <= 1;  
+            //ExtendSel <= 1;  
             RegDst <= 0;
             ALUSrc0 <= 0;
             ALUSrc1 <= 1;
@@ -243,7 +242,7 @@ case (Instruction)
             PCSrc <= 0;
             RegSrc0 <= 0;
             RegSrc1 <= 1;
-            ExtendSel <= 1;   
+            //ExtendSel <= 1;   
             RegDst <= 0;
             ALUSrc0 <= 0;
             ALUSrc1 <= 1;
@@ -262,7 +261,7 @@ case (Instruction)
             PCSrc <= 1;
             RegSrc0 <= 0;
             RegSrc1 <= 0; 
-            ExtendSel <= 1;
+            //ExtendSel <= 1;
             RegDst <= 0;
             ALUSrc0 <= 0;
             ALUSrc1 <= 0;
@@ -285,7 +284,7 @@ case (Instruction)
             PCSrc <= 1;
             RegSrc0 <= 0;
             RegSrc1 <= 1; 
-            ExtendSel <= 1;  
+            //ExtendSel <= 1;  
             RegDst <= 0;
             ALUSrc0 <= 0;
             ALUSrc1 <= 0;
@@ -303,7 +302,7 @@ case (Instruction)
             PCSrc <= 1;
             RegSrc0 <= 0;
             RegSrc1 <= 1; 
-            ExtendSel <= 1;  
+            //ExtendSel <= 1;  
             RegDst <= 0;
             ALUSrc0 <= 0;
             ALUSrc1 <= 0;
@@ -321,7 +320,7 @@ case (Instruction)
             PCSrc <= 1;
             RegSrc0 <= 0;
             RegSrc1 <= 1; 
-            ExtendSel <= 1;  
+            //ExtendSel <= 1;  
             RegDst <= 0;
             ALUSrc0 <= 0;
             ALUSrc1 <= 0;
@@ -340,7 +339,7 @@ case (Instruction)
             RegSrc0 <= 0;
             RegSrc1 <= 0; 
             RegDst <= 0;
-            ExtendSel <= 1;  
+            //ExtendSel <= 1;  
             ALUSrc0 <= 0;
             ALUSrc1 <= 0;
             R_Enable <= 0; 
@@ -358,7 +357,7 @@ case (Instruction)
             RegSrc0 <= 0;
             RegSrc1 <= 1; 
             RegDst <= 0;
-            ExtendSel <= 1;  
+            //ExtendSel <= 1;  
             ALUSrc0 <= 0;
             ALUSrc1 <= 0;
             R_Enable <= 0; 
@@ -375,7 +374,7 @@ case (Instruction)
             PCSrc <= 1;
             RegSrc0 <= 0;
             RegSrc1 <= 1; 
-            ExtendSel <= 1;  
+            //ExtendSel <= 1;  
             RegDst <= 0;
             ALUSrc0 <= 0;
             ALUSrc1 <= 2;
@@ -394,7 +393,7 @@ case (Instruction)
         PCSrc <= 0;
         RegSrc0 <= 0;
         RegSrc1 <= 1;
-        ExtendSel <= 1;  
+        //ExtendSel <= 1;  
         RegDst <= 0;
         ALUSrc0 <= 0;
         ALUSrc1 <= 1;
@@ -411,7 +410,7 @@ case (Instruction)
         PCSrc <= 0;
         RegSrc0 <= 0;
         RegSrc1 <= 1;
-        ExtendSel <= 0;  
+        //ExtendSel <= 0;  
         RegDst <= 0;
         ALUSrc0 <= 0;
         ALUSrc1 <= 1;
@@ -428,7 +427,7 @@ case (Instruction)
         PCSrc <= 0;
         RegSrc0 <= 0;
         RegSrc1 <= 1;
-        ExtendSel <= 0;  
+        //ExtendSel <= 0;  
         RegDst <= 0;
         ALUSrc0 <= 0;
         ALUSrc1 <= 1;
@@ -445,7 +444,7 @@ case (Instruction)
         PCSrc <= 0;
         RegSrc0 <= 0;
         RegSrc1 <= 1;
-        ExtendSel <= 1;  
+        //ExtendSel <= 1;  
         RegDst <= 0;
         ALUSrc0 <= 0;
         ALUSrc1 <= 1;
@@ -460,7 +459,7 @@ case (Instruction)
         PCSrc <= 0;
         RegSrc0 <= 0;
         RegSrc1 <= 0;
-        ExtendSel <= 0;  
+        //ExtendSel <= 0;  
         RegDst <= 0;
         ALUSrc0 <= 0;
         ALUSrc1 <= 0;

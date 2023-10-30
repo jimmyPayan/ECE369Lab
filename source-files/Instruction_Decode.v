@@ -45,7 +45,7 @@ wire RegSrc0, RegSrc1, ExtendSel;
 Controller Sys_Controller(
 Instruction [31:26], Instruction [20:16], Instruction [5:0], // Inputs
 PCSel, 
-RegSrc0, RegSrc1, ExtendSel,
+RegSrc0, RegSrc1, /*ExtendSel,*/
 RegDst, ALUSrc0, ALUSrc1,
 R_Enable, W_Enable, MemToReg, RegWriteOut, R_Width, W_Width, BranchSel // Outputs
 );
@@ -66,7 +66,7 @@ Reg_Data1, Reg_Data2 // Outputs
 
 wire [31:0] Imm32b;
 output reg [31:0] Imm32b_output;
-SignExtend Extend_Imm(Instruction[15:0], Imm32b, ExtendSel);
+SignExtend16Bit Extend_Imm(Instruction[15:0], Imm32b /*, ExtendSel*/);
 
 always @ (*) begin
 PCSel_output <= PCSel;

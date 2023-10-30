@@ -20,12 +20,12 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module SignExtend(inputValue, outputValue, extendSel);
-input extendSel; // 0 = 0's extend, 1 = sign extend
+module SignExtend16Bit(inputValue, outputValue/*, extendSel*/);
+//input extendSel; // 0 = 0's extend, 1 = sign extend
 input [15:0] inputValue;
 output reg [31:0] outputValue;
 always @ (*) begin
-case (extendSel)
+case (inputValue[15])
     0: outputValue <= {16'h0000, inputValue};
     1: outputValue <= {16'h1111, inputValue};
 endcase
