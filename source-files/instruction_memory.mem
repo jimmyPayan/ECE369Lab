@@ -38,8 +38,8 @@
 00000000
 00000000
 00000000
-// making sure that registers are being written  (WriteData = 218)
-// addi $s0, $s0, 1
+// making sure that registers are being written 
+// addi $s0, $s0, 1, working (WriteData = 218)
 // addi $16 $16 0x1
 22100001
 00000000
@@ -47,14 +47,24 @@
 00000000
 00000000
 00000000
-// lh $s5, 4($0)
-86150004
+// add $t0, $0, $0
+// add $8, $0, $0
+00004020
 00000000
 00000000
 00000000
 00000000
 00000000
-82560008
+// lh $s5, 2($t0), working (should be 0xFFFFAAAA)
+// lh $21, 2($8)
+85150002
+00000000
+00000000
+00000000
+00000000
+00000000
+// lb $s6, 23($t8), working (should be 0xFFFFFFC7)
+81160017
 00000000
 00000000
 00000000

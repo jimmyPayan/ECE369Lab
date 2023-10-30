@@ -49,23 +49,58 @@ always @ (posedge Clock) begin
     if (R_en) 
     begin
         case (memReadCommand)
+        // lw
         0: R_data = memoryInitial[Address >> 2];
+        // lh
         1: 
             case (Address - ((Address >> 2) << 2))
                 0:  begin 
 //                    R_data <= memoryInitial[Address >> 2][31:16];
                     if (memoryInitial[Address >> 2][31])
                         R_data <= {16'hFFFF , memoryInitial[Address >> 2][31:16]};
+                    else 
+                        R_data <= {16'h0000 , memoryInitial[Address >> 2][31:16]};
                     end
-                2:  R_data <= memoryInitial[Address >> 2][15:0];
+                    
+                2:  begin //R_data <= memoryInitial[Address >> 2][15:0];
+                    if (memoryInitial[Address >> 2][15])
+                        R_data <= {16'hFFFF , memoryInitial[Address >> 2][15:0]};
+                    else 
+                        R_data <= {16'h0000 , memoryInitial[Address >> 2][15:0]};                
+                    end
                 default: R_data <= 32'hXXXXZZZZ;
             endcase
-        2: 
+        2: // lb
             case (Address - ((Address >> 2) << 2))
-                0: R_data <= memoryInitial[Address >> 2][31:24];
-                1: R_data <= memoryInitial[Address >> 2][23:16];
-                2: R_data <= memoryInitial[Address >> 2][15:8];
-                3: R_data <= memoryInitial[Address >> 2][7:0];
+                0: begin 
+                //R_data <= memoryInitial[Address >> 2][31:24];
+                    if (memoryInitial[Address >> 2][31])
+                        R_data <= {24'hFFFFFF, memoryInitial[Address >> 2][31:24]};
+                    else 
+                        R_data <= {24'h000000, memoryInitial[Address >> 2][31:24]};
+                end
+                
+                1: begin 
+                //R_data <= memoryInitial[Address >> 2][23:16];
+                    if (memoryInitial[Address >> 2][23])
+                        R_data <= {24'hFFFFFF, memoryInitial[Address >> 2][23:16]};
+                    else 
+                        R_data <= {24'h000000, memoryInitial[Address >> 2][23:16]};                
+                end
+                2: begin
+                    if (memoryInitial[Address >> 2][15])
+                        R_data <= {24'hFFFFFF, memoryInitial[Address >> 2][15:8]};
+                    else 
+                        R_data <= {24'h000000, memoryInitial[Address >> 2][15:8]};                
+                //R_data <= memoryInitial[Address >> 2][15:8];
+                end
+                3: begin 
+                //R_data <= memoryInitial[Address >> 2][7:0];
+                    if (memoryInitial[Address >> 2][7])
+                        R_data <= {24'hFFFFFF, memoryInitial[Address >> 2][7:0]};
+                    else 
+                        R_data <= {24'h000000, memoryInitial[Address >> 2][7:0]};                
+                end
                 default: R_data <= 32'hXXXXZZZZ;
             endcase 
         endcase
