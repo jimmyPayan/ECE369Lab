@@ -6,7 +6,7 @@
 00000000
 00000000
 00000000
-// addi $t2, $s1, 0x001A, working (WriteData = 136)
+// addi $s1, $t2, 0x001A, working (WriteData = 136)
 // addi $17, $10, 26
 2151001A 
 00000000
@@ -14,7 +14,7 @@
 00000000
 00000000
 00000000
-// sub $s2 $s0 $s1, working (WriteData = -1)
+// sub $s2, $s0 $s1, working (WriteData = 81)
 // sub $18, $16, $17
 02119022
 00000000
@@ -22,22 +22,32 @@
 00000000
 00000000
 00000000
-// mul $s0, $s1, $s3, working (WriteData = 13572)
-// mul $16, $17, $19 
+// mul $s3, $s0, $s1, working (WriteData = 29512)
+// mul $19, $16, $17 
 72119802
 00000000
 00000000
 00000000
 00000000
 00000000
-// lw $20, 0($12), not working properly. use $0 as address
-// lw $20, 0($12)
-8D940000
+// lw $s4, 0($0), working (WriteData = 0x00FFAAAA)
+// lw $s4, 0($0)
+8C140000
 00000000
 00000000
 00000000
 00000000
 00000000
+// making sure that registers are being written  (WriteData = 218)
+// addi $s0, $s0, 1
+// addi $16 $16 0x1
+22100001
+00000000
+00000000
+00000000
+00000000
+00000000
+// lh $s5, 4($0)
 86150004
 00000000
 00000000

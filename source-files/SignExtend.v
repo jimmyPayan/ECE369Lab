@@ -27,7 +27,7 @@ output reg [31:0] outputValue;
 always @ (*) begin
 case (inputValue[15])
     0: outputValue <= {16'h0000, inputValue};
-    1: outputValue <= {16'h1111, inputValue};
+    1: outputValue <= {16'hFFFF, inputValue};
 endcase
 end
 

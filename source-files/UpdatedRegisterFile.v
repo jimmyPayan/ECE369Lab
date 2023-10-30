@@ -66,10 +66,8 @@ ReadData1, ReadData2 // Outputs
     end
     
     always @(posedge Clk) begin
-        if (RegWrite == 1 && (WAddr != 0 && WAddr != 26 && WAddr != 27)) begin
+        if (RegWrite == 1 && ((WAddr != 0) && (WAddr != 26) && (WAddr != 27))) begin
             Registers[WAddr] <= WData;
-//            ReadData1 <= 0;
-//            ReadData2 <= 0;
         end
         
     end

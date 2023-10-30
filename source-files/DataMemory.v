@@ -52,7 +52,11 @@ always @ (posedge Clock) begin
         0: R_data = memoryInitial[Address >> 2];
         1: 
             case (Address - ((Address >> 2) << 2))
-                0:  R_data <= memoryInitial[Address >> 2][31:16];
+                0:  begin 
+//                    R_data <= memoryInitial[Address >> 2][31:16];
+                    if (memoryInitial[Address >> 2][31])
+                        R_data <= {16'hFFFF , memoryInitial[Address >> 2][31:16]};
+                    end
                 2:  R_data <= memoryInitial[Address >> 2][15:0];
                 default: R_data <= 32'hXXXXZZZZ;
             endcase
@@ -66,6 +70,9 @@ always @ (posedge Clock) begin
             endcase 
         endcase
     end 
+    else if (!R_en)
+        R_data <= 0;
+    
     if (W_en)
     begin
         case (memWriteCommand)

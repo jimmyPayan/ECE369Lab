@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module ProcessorTopFileMIPS(Clock, PC_To_Instr_Mem_output, regWriteData_output);
+module ProcessorTopFileMIPS(Clock, PC_To_Instr_Mem_output, regWriteData_output, );
 
 // Wires used for first time in Instruction Fetch
 input Clock; // configure outputs
@@ -51,11 +51,11 @@ wire [3:0] BranchSel_ID;
 wire [31:0] Reg_Data1_ID, Reg_Data2_ID, Imm32b_ID;
 wire [4:0] RegDestSelected_WB;
 wire [31:0] regWriteData;
-wire RegWriteWB;
+wire RegWrite_WB;
 
 Instruction_Decode ID_Stage (
 Clock, 
-Instruction_ID, RegDestSelected_WB, regWriteData, RegWriteWB, // Inputs
+Instruction_ID, RegDestSelected_WB, regWriteData, RegWrite_WB, // Inputs
 
 PCSel_ID, RegDst_ID, ALUSrc0_ID, ALUSrc1_ID, R_Enable_ID, W_Enable_ID, // Controller Outputs
 R_Width_ID, W_Width_ID, MemToReg_ID, RegWrite_ID, BranchSel_ID, // Controller Outputs cont.
