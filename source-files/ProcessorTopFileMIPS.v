@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module ProcessorTopFileMIPS(Clock, PC_To_Instr_Mem_output, regWriteData_output, );
+module ProcessorTopFileMIPS(Clock, PC_To_Instr_Mem_output, regWriteData_output);
 
 // Wires used for first time in Instruction Fetch
 input Clock; // configure outputs
