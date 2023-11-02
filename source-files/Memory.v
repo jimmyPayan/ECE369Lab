@@ -43,7 +43,7 @@ R_Data_output, PCNew_output, PCSrc_output
     R_Data, Reg_Data2, 
     R_Width, W_Width);
 
-    PCSrcControl PCSrc_Control(BranchSel, Zero, ALUResult, j_sll_two, PC_Plus_Branch, PCSrc, PCNew);
+    PCSrcControl test(BranchSel, Zero, ALUResult, j_sll_two, PC_Plus_Branch, PCSrc, PCNew);
     
     always @ (*) begin
     R_Data_output <= R_Data;

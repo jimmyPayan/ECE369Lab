@@ -77,7 +77,7 @@ module PCSrcControl(BranchSel, Zero, ALUResult, Imm, AddResult, PCSrc, PCNew);
                     PCNew <= 32'h00000000;
                 end 
             4'b0101:
-                if (ALUResult < 0) begin
+                if (ALUResult >= 0) begin
                     PCSrc <= 1;
                     PCNew <= AddResult;
                 end
@@ -96,7 +96,15 @@ module PCSrcControl(BranchSel, Zero, ALUResult, Imm, AddResult, PCSrc, PCNew);
             4'b1000: begin
                 PCSrc <= 1;
                 PCNew <= AddResult;
-                end               
+                end  
+            4'b1001: begin
+                PCSrc <= 0;
+                PCNew <= 32'h00000000;  
+                end  
+            4'b1010: begin
+                PCSrc <= 0;
+                PCNew <= 32'h00000000;
+                end         
             default: begin
                 PCSrc <= 0;
                 PCNew <= 32'h00000000;

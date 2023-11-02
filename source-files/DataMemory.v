@@ -44,7 +44,7 @@ begin    // Read in memory from .mem file
     $readmemh("data_memory.mem", memoryInitial);
 end
 
-always @ (posedge Clock) begin
+always @ (negedge Clock) begin
 
     if (R_en) 
     begin
@@ -107,6 +107,9 @@ always @ (posedge Clock) begin
     end 
     else if (!R_en)
         R_data <= 0;
+end
+
+always @(posedge Clock) begin
     
     if (W_en)
     begin

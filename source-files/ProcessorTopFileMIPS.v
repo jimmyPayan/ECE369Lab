@@ -115,20 +115,21 @@ R_Width_MEM, W_Width_MEM, PC_Plus_Branch_MEM, Zero_MEM, Reg_Data2_MEM, j_sll_two
 );
 
 wire [31:0] R_Data, PCNew;
+wire PCSel_MEM;
 
 Memory MEM_Stage(
 Clock,
 R_Enable_MEM, W_Enable_MEM, R_Width_MEM, W_Width, BranchSel_MEM, PC_Plus_Branch_MEM, Zero_MEM, ALUResult_MEM, 
-Reg_Data2_MEM, j_sll_two_MEM, R_Data, PCNew, PCSel_IF
+Reg_Data2_MEM, j_sll_two_MEM, R_Data, PCNew, PCSel_MEM
 );
 
-wire RegWrite_WB, MemToReg_WB; 
+wire MemToReg_WB; 
 wire [31:0] R_Data_WB, ALUResult_WB;
 //wire [4:0] RegDestSelected_WB;
 
 MemoryToWriteBack MEM_WB_Pipeline(
 Clock,
-RegWrite_MEM, MemToReg_MEM, R_Data, ALUResult_MEM, RegDestSelected_MEM, PCNew, PCSrc,
+RegWrite_MEM, MemToReg_MEM, R_Data, ALUResult_MEM, RegDestSelected_MEM, PCNew, PCSel_MEM,
 RegWrite_WB, MemToReg_WB, R_Data_WB, ALUResult_WB, RegDestSelected_WB, BranchPC_IF, PCSel_IF
 );
 

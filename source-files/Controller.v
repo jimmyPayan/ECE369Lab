@@ -89,7 +89,7 @@ case (Instruction)
             RegWrite <= 1;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
-            InstrSel <= 4'bXXXX; 
+            InstrSel <= 4'b1010; 
             end
         // srl
             6'b000010: begin
@@ -106,9 +106,10 @@ case (Instruction)
             RegWrite <= 1;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
-            InstrSel <= 4'bXXXX; 
+            InstrSel <= 4'b1010; 
             end
         // Not sll / srl
+            
             default: begin
             PCSrc <= 0;
             RegSrc0 <= 0;
@@ -123,7 +124,7 @@ case (Instruction)
             RegWrite <= 1;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;          
-            InstrSel <= 4'bXXXX;  
+            InstrSel <= 4'b1010;  
             end
     endcase end
     
@@ -143,7 +144,7 @@ case (Instruction)
             RegWrite <= 1;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
-            InstrSel <= 4'bXXXX;      
+            InstrSel <= 4'b1010;      
     end  
     
     // Memory Instructions
@@ -162,7 +163,7 @@ case (Instruction)
             RegWrite <= 1;
             R_Width <= 0;
             W_Width <= 2'bXX;
-            InstrSel <= 4'bXXXX;          
+            InstrSel <= 4'b1010;          
     end
 
     // lh
@@ -180,7 +181,7 @@ case (Instruction)
             RegWrite <= 1;
             R_Width <= 1;
             W_Width <= 2'bXX;
-            InstrSel <= 4'bXXXX;          
+            InstrSel <= 4'b1010;          
     end
 
     // lb
@@ -198,7 +199,7 @@ case (Instruction)
             RegWrite <= 1;
             R_Width <= 2;
             W_Width <= 2'bXX;
-            InstrSel <= 4'bXXXX;          
+            InstrSel <= 4'b1010;          
     end
     
     // sw
@@ -216,7 +217,7 @@ case (Instruction)
             RegWrite <= 0;
             R_Width <= 2'bXX;
             W_Width <= 0;
-            InstrSel <= 4'bXXXX;  
+            InstrSel <= 4'b1010;  
     end
     
     // sh
@@ -234,7 +235,7 @@ case (Instruction)
             RegWrite <= 0;
             R_Width <= 2'bXX;
             W_Width <= 1;
-            InstrSel <= 4'bXXXX;  
+            InstrSel <= 4'b1010;  
     end
 
     // sb
@@ -252,7 +253,7 @@ case (Instruction)
             RegWrite <= 0;
             R_Width <= 2'bXX;
             W_Width <= 2;
-            InstrSel <= 4'bXXXX;  
+            InstrSel <= 4'b1010;  
     end
     
     // Branch and Jump instructions
@@ -275,7 +276,7 @@ case (Instruction)
             case (BranchSignal)
             0: InstrSel <= 5;
             1: InstrSel <= 0;
-            default: InstrSel <= 4'bXXXX;
+            default: InstrSel <= 4'b1010;
             endcase
     end
     
@@ -402,7 +403,7 @@ case (Instruction)
         RegWrite <= 1;
         R_Width <= 2'bXX;
         W_Width <= 2'bXX;
-        InstrSel <= 4'bXXXX;
+        InstrSel <= 4'b1010;
     end   
     
     // ori
