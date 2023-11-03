@@ -32,7 +32,7 @@ module PCSrcControl(BranchSel, Zero, ALUResult, Imm, AddResult, PCSrc, PCNew);
     always @ (*) begin
         case (BranchSel) 
             4'b0000: 
-                if (ALUResult >= 0) begin 
+                if (ALUResult < 0) begin 
                     PCSrc <= 1; 
                     PCNew <= AddResult; 
                 end
