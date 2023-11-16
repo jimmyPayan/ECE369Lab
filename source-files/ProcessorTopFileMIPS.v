@@ -107,11 +107,14 @@ wire [27:0] j_sll_two_MEM;
 
 ExecuteToMemory EX_MEM_Pipeline(
 Clock,
-R_Enable_EX, W_Enable_EX, BranchSel_EX, RegWrite_EX, MemToReg_EX, ALUResult_EX, RegDestSelected_EX, 
-R_Width_EX, W_Width_EX, PC_Plus_Branch_EX, Zero_EX, Reg_Data2_EX, j_sll_two_EX,
 
-R_Enable_MEM, W_Enable_MEM, BranchSel_MEM, RegWrite_MEM, MemToReg_MEM, ALUResult_MEM, RegDestSelected_MEM, 
-R_Width_MEM, W_Width_MEM, PC_Plus_Branch_MEM, Zero_MEM, Reg_Data2_MEM, j_sll_two_MEM
+// Inputs
+R_Enable_EX, W_Enable_EX, RegWrite_EX, MemToReg_EX, ALUResult_EX, RegDestSelected_EX, 
+R_Width_EX, W_Width_EX, Reg_Data2_EX,
+
+// Outputs
+R_Enable_MEM, W_Enable_MEM, RegWrite_MEM, MemToReg_MEM, ALUResult_MEM, RegDestSelected_MEM, 
+R_Width_MEM, W_Width_MEM, Reg_Data2_MEM
 );
 
 wire [31:0] R_Data, PCNew;
@@ -132,8 +135,12 @@ wire [31:0] R_Data_WB, ALUResult_WB;
 
 MemoryToWriteBack MEM_WB_Pipeline(
 Clock,
-RegWrite_MEM, MemToReg_MEM, R_Data, ALUResult_MEM, RegDestSelected_MEM, PCNew, PCSel_MEM,
-RegWrite_WB, MemToReg_WB, R_Data_WB, ALUResult_WB, RegDestSelected_WB, BranchPC_IF, PCSel_IF
+
+// Inputs
+RegWrite_MEM, MemToReg_MEM, R_Data, ALUResult_MEM, RegDestSelected_MEM,
+
+// Outputs
+RegWrite_WB, MemToReg_WB, R_Data_WB, ALUResult_WB, RegDestSelected_WB
 );
 
 Write_Back WB_Stage(
