@@ -21,6 +21,29 @@
 
 
 module HazardDetection(
+// Inputs
+rs, rt, opcode, rDestSelected,
 
-    );
+// Outputs
+stall
+);
+
+input [4:0] rs, rt, rDestSelected;
+input [5:0] opcode;
+
+output reg stall;
+
+always @ (*) begin
+
+// if opcode == R type && ( rDestSelected == rs || rDestSelected == rt ) && (rDestSelected != 0)
+//   stall 1
+
+// else if opcode == I type && rDestSelected == rs
+//   stall 1
+
+// if (branch)
+//   flush 1 - is this right?
+
+end
+
 endmodule

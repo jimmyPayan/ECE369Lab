@@ -23,8 +23,12 @@
 // initialized with their register index (ie; $4 receives the value 4). 
 module UpdatedRegisterFile(
 Clk,
-ReadReg1, ReadReg2, WAddr, WData, RegWrite, // Inputs
-ReadData1, ReadData2 // Outputs
+
+// Inputs
+ReadReg1, ReadReg2, WAddr, WData, RegWrite,
+
+// Outputs 
+ReadData1, ReadData2 
 );
 
     input [4:0] ReadReg1, ReadReg2, WAddr;
