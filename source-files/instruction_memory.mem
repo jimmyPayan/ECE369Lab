@@ -1,10 +1,11 @@
+// Used to test lab 4
 // j 12 // DELETE ME LATER
 // PC = 0
-0800000B 
+/* 0800000B 
 00000000
 00000000
 00000000
-00000000
+00000000 */
 // add $s0, $t0, $t1, working (WriteData = 217)
 // add $16, $8, $9
 01098020 
