@@ -119,13 +119,16 @@ wire PCSel_MEM;
 
 Memory MEM_Stage(
 Clock,
-R_Enable_MEM, W_Enable_MEM, R_Width_MEM, W_Width, BranchSel_MEM, PC_Plus_Branch_MEM, Zero_MEM, ALUResult_MEM, 
-Reg_Data2_MEM, j_sll_two_MEM, R_Data, PCNew, PCSel_MEM
+
+// Inputs
+R_Enable_MEM, W_Enable_MEM, R_Width_MEM, W_Width, ALUResult_MEM, Reg_Data2_MEM, 
+
+// Outputs
+R_Data
 );
 
 wire MemToReg_WB; 
 wire [31:0] R_Data_WB, ALUResult_WB;
-//wire [4:0] RegDestSelected_WB;
 
 MemoryToWriteBack MEM_WB_Pipeline(
 Clock,
