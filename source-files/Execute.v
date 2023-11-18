@@ -45,27 +45,26 @@ input [31:0] dont_care_A1, dont_care_B1;
 wire [3:0] ALUControl;
 wire [31:0] ALU_A1, ALU_B1;
 wire [31:0] ALU_A0, ALU_B0;
-wire [31:0] ALU_A_Final, ALU_B_Final;
-wire [31:0] Shamtout;
+wire [31:0] Shamt_sll_two;
 wire [31:0] ALUResult;
 wire [31:0] PC_Plus_Branch;
 wire [4:0] RegDestSelected;
+wire Zero; // sure if we need a zero bit we have one but we don't
 
 output reg [31:0] ALUResult_output;
 output reg [31:0] PC_Plus_Branch_output;
 output reg [4:0] RegDestSelected_output;
 
+SignExtend5to32 shamtExtend(sa, Shamt_sll_two);
 
-SignExtend5to32 shamtExtend(sa, Shamtout);
+Mux32bit2to1 ALU_A0_Mux(Reg_Data1, Shamt_sll_two, ALU_A0, ALUSrc0);
+Mux32bit4to1 ALU_B0_Mux(Reg_Data2, Imm32b, 8, 32'hXXXXXXXX, ALU_B0, ALUSrc1);
 
-Mux32bit2to1 ALU_A0_Mux(Reg_Data1, Shamtout, ALU_A0, ALUSrc0);
-Mux32bit4to1 ALU_B0_Mux(Reg_Data2, Imm32b, 8, 10, ALU_B0, ALUSrc1);
-
-Mux32bit2to1 ALU_A1_Mux(ALU_A0, );
-Mux32bit2to1 ALU_B1_Mux();
+Mux32bit2to1 ALU_A1_Mux(ALU_A0, 32'hZZZZXXXX, ALU_A1, ALUSrcA1);
+Mux32bit2to1 ALU_B1_Mux(ALU_B0, 32'hXXXXZZZZ, ALU_B1, ALUSrcB1);
 
 ALUControl ALU_Control(Opcode, Funct, ALUControl);
-ALU Sys_ALU(ALUControl, ALU_A0, ALU_B0, ALUResult, Zero);
+ALU Sys_ALU(ALUControl, ALU_A1, ALU_B1, ALUResult, Zero);
 
 Mux5bit2to1 regDest_Mux(rt, rd, RegDestSelected, RegDst);
 

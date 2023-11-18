@@ -108,13 +108,21 @@ wire [27:0] j_sll_two_MEM;
 ExecuteToMemory EX_MEM_Pipeline(
 Clock,
 
-// Inputs
-R_Enable_EX, W_Enable_EX, RegWrite_EX, MemToReg_EX, ALUResult_EX, RegDestSelected_EX, 
-R_Width_EX, W_Width_EX, Reg_Data2_EX,
+// *****Inputs*****
+// MEM/WB Control Signals
+RegWrite_EX, MemToReg_EX,
+// EX/MEM Control Signals
+R_Enable_EX, W_Enable_EX, R_Width_EX, W_Width_EX,
+// EX/MEM Inputs
+ALUResult_EX, Reg_Data2_EX, rDestSelected_EX,
 
-// Outputs
-R_Enable_MEM, W_Enable_MEM, RegWrite_MEM, MemToReg_MEM, ALUResult_MEM, RegDestSelected_MEM, 
-R_Width_MEM, W_Width_MEM, Reg_Data2_MEM
+// *****Outputs*****
+// MEM/WB Control Signals
+RegWrite_MEM, MemToReg_MEM, 
+// EX/MEM Control Signals
+R_Enable_MEM, W_Enable_MEM, R_Width_MEM, W_Width_MEM,
+// EX/MEM Outputs
+ALUResult_MEM, Reg_Data2_MEM, rDestSelected_MEM
 );
 
 wire [31:0] R_Data, PCNew;
