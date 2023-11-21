@@ -133,7 +133,6 @@ Clock,
 
 // Inputs
 R_Enable_MEM, W_Enable_MEM, R_Width_MEM, W_Width, ALUResult_MEM, Reg_Data2_MEM, 
-
 // Outputs
 R_Data
 );
@@ -146,7 +145,6 @@ Clock,
 
 // Inputs
 RegWrite_MEM, MemToReg_MEM, R_Data, ALUResult_MEM, RegDestSelected_MEM,
-
 // Outputs
 RegWrite_WB, MemToReg_WB, R_Data_WB, ALUResult_WB, RegDestSelected_WB
 );

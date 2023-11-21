@@ -8,7 +8,9 @@ A, B,
 Out, 
 
 // Control Signal
-Select);
+Select
+);
+
 input [31:0] A, B;
 input Select;
 output reg [31:0] Out;

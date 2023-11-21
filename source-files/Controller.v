@@ -21,15 +21,14 @@
 
 
 module Controller(
-Instruction, BranchSignal, Opcode, // Inputs
+Funct, Opcode, // Inputs
 PCSrc, 
 RegSrc0, RegSrc1, /*ExtendSel,*/
 RegDst, ALUSrc0, ALUSrc1,
-R_Enable, W_Enable, MemToReg, RegWrite, R_Width, W_Width, InstrSel // Outputs
+R_Enable, W_Enable, MemToReg, RegWrite, R_Width, W_Width // Outputs
 );
 
-input [5:0] Instruction;
-input [4:0] BranchSignal;
+input [5:0] Funct;
 input [5:0] Opcode;
 
 output reg PCSrc;
@@ -47,16 +46,15 @@ output reg MemToReg;
 output reg RegWrite;
 output reg [1:0] R_Width;
 output reg [1:0] W_Width;
-output reg [3:0] InstrSel;
 
 //always @(Instruction) begin 
 // Since we have case(opcode) and case(branchSignal) we should do always @ (*), functionality should be the same
 always @ (*) begin
-case (Instruction)
+case (Opcode)
     // R-type instructions (and jump register since that's R-type for some reason ???)
     
     6'b000000: 
-        begin case (Opcode)
+        begin case (Funct)
         // jr
             6'b001000: begin
             PCSrc <= 1;
@@ -72,7 +70,6 @@ case (Instruction)
             RegWrite <= 0;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
-            InstrSel <= 7;
             end
         // sll
             6'b000000: begin
