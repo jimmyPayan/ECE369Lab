@@ -29,7 +29,7 @@ R_Enable, W_Enable, R_Width, W_Width, ALUResult, W_Data,
 // Outputs
 R_Data_output
 );
-    input R_Enable, W_Enable, /*Zero,*/ Clock;
+    input R_Enable, W_Enable, Clock;
     input [1:0] R_Width, W_Width;
     input [31:0] ALUResult, W_Data;
 
@@ -43,8 +43,6 @@ R_Data_output
     ALUResult, 
     R_Data, W_Data, 
     R_Width, W_Width);
-
-    PCSrcControl test(BranchSel, Zero, ALUResult, j_sll_two, PC_Plus_Branch, PCSrc, PCNew);
     
     always @ (*) begin
     R_Data_output <= R_Data;

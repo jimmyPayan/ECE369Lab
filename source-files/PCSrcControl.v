@@ -19,8 +19,11 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+// Note as of 10:04 pm 11/20/23: needs to be rewritten. -Jimmy
+module PCSrcControl(
+BranchSel, Zero, ALUResult, Imm, AddResult, PCSrc, PCNew
 
-module PCSrcControl(BranchSel, Zero, ALUResult, Imm, AddResult, PCSrc, PCNew);
+);
     input [3:0] BranchSel;
     input Zero;
     input [31:0] ALUResult, AddResult;
