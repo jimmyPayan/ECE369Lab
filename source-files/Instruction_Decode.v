@@ -38,6 +38,7 @@ RegDst_output, ALUSrc1_output, ALUSrc0_output,
 // ID Data Outputs
 Reg_Data1_output, Reg_Data2_output, Imm32b_output
 );
+
 input Clock, RegWrite;
 input [31:0] Instruction, regWriteData, PCPlusFour;
 input [4:0] rDestSelected;
@@ -85,6 +86,8 @@ LeftShift2AndExtend SLL_imm();
 Add Branch_adder();
 
 PCSrcControl PCSrc_Control();
+
+Hazard_Detect HazardDetection();
 
 always @ (*) begin
 PCSel_output <= PCSel;
