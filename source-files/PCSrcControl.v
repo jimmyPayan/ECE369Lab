@@ -19,7 +19,6 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-// Note as of 10:04 pm 11/20/23: needs to be rewritten. -Jimmy
 module PCSrcControl(
 // ***Inputs***
 Instruction,  PC_Plus_Branch, Reg_Data1, Reg_Data2,

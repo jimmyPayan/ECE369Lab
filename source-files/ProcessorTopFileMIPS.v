@@ -125,7 +125,7 @@ R_Enable_MEM, W_Enable_MEM, R_Width_MEM, W_Width_MEM,
 ALUResult_MEM, Reg_Data2_MEM, rDestSelected_MEM
 );
 
-wire [31:0] R_Data, PCNew;
+wire [31:0] R_Data;
 wire PCSel_MEM;
 
 Memory MEM_Stage(
@@ -134,7 +134,7 @@ Clock,
 // Inputs
 R_Enable_MEM, W_Enable_MEM, R_Width_MEM, W_Width, ALUResult_MEM, Reg_Data2_MEM, 
 // Outputs
-R_Data
+R_Data_MEM
 );
 
 wire MemToReg_WB; 
@@ -144,7 +144,7 @@ MemoryToWriteBack MEM_WB_Pipeline(
 Clock,
 
 // Inputs
-RegWrite_MEM, MemToReg_MEM, R_Data, ALUResult_MEM, RegDestSelected_MEM,
+RegWrite_MEM, MemToReg_MEM, R_Data_MEM, ALUResult_MEM, RegDestSelected_MEM,
 // Outputs
 RegWrite_WB, MemToReg_WB, R_Data_WB, ALUResult_WB, RegDestSelected_WB
 );
