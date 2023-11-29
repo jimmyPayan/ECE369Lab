@@ -24,11 +24,14 @@ module Instruction_Decode(
 Clock,
 
 // ****Inputs****
-Instruction, PCPlusFour, rDestSelected, regWriteData, RegWrite,
+// Standard ID Stage
+Instruction, PCPlusFour, rDestSelected_ID, regWriteData, RegWrite, 
+// Hazard Detection
+rt_EX, rd_EX, rDestSelected_MEM, Opcode_EX, Opcode_MEM,
 
 // ****Outputs****
 // IF Control Signals
-PCSel_output, Stall_PC_output, BranchPC_output,
+PCSel_output, BranchPC_output,
 // MEM/WB Control Signals
 RegWriteOut_output, MemToReg_output,
 // EX/MEM Control Signals
@@ -36,17 +39,21 @@ R_Enable_output, W_Enable_output, R_Width_output, W_Width_output,
 // ID/EX Control Signals
 RegDst_output, ALUSrc1_output, ALUSrc0_output,
 // ID Data Outputs
-Reg_Data1_output, Reg_Data2_output, Imm32b_output
+Reg_Data1_output, Reg_Data2_output, Imm32b_output,
+
+// Hazard Detection Outputs
+Stall_PC_output, Stall_ID_output, Stall_ID_EX_output
 );
 
 input Clock, RegWrite;
 input [31:0] Instruction, regWriteData, PCPlusFour;
-input [4:0] rDestSelected;
+input [5:0] Opcode_EX, Opcode_MEM;
+input [4:0] rDestSelected_ID, rDestSelected_MEM, rt_EX, rd_EX;
 
 wire PCSel, RegDst, ALUSrc0, ALUSrc1, R_Enable, W_Enable, MemToReg, RegWriteOut;
 wire [3:0] BranchSel;
 wire [1:0] R_Width, W_Width;
-output reg PCSel_output, Stall_PC_output, RegDst_output, ALUSrc0_output, R_Enable_output, W_Enable_output, MemToReg_output, RegWriteOut_output;
+output reg PCSel_output, Stall_PC_output, Stall_ID_output, Stall_ID_EX_output, RegDst_output, ALUSrc0_output, R_Enable_output, W_Enable_output, MemToReg_output, RegWriteOut_output;
 output reg [1:0] R_Width_output, W_Width_output, ALUSrc1_output;
 output reg [31:0] BranchPC_output;
 wire RegSrc0, RegSrc1, ExtendSel;
@@ -73,7 +80,7 @@ output reg [31:0] Reg_Data1_output, Reg_Data2_output;
 
 UpdatedRegisterFile Register_File(Clock, 
 // Inputs
-rsSelected, rtSelected, rDestSelected, regWriteData, RegWrite,
+rsSelected, rtSelected, rDestSelected_ID, regWriteData, RegWrite,
 // Outputs 
 Reg_Data1, Reg_Data2 
 );
@@ -101,16 +108,14 @@ Instruction, PC_Plus_Branch, Reg_Data1, Reg_Data2,
 PCSel, BranchPC);
 
 wire Stall_PC;
-HazardDetection Hazard_Detect(Instruction [25:21], Instruction [20:16], );
-// Call: (ID_rs, ID_rt, ex_opcode, mem_opcode, mem_rDestSelected, EX_rt, EX_rd, output signals)
-
-module HazardDetection(
+HazardDetection Hazard_Detect(
 // Inputs
-ID_rs, ID_rt, EX_opcode, MEM_opcode, MEM_rDestSelected, EX_rt, EX_rd,
+Instruction [25:21], Instruction [20:16], Opcode_EX, Opcode_MEM, rDestSelected_MEM, rt_EX, rd_EX,
 
 // Outputs
 Stall_ID, Stall_PC, Stall_ID_EX
 );
+// Call: (ID_rs, ID_rt, ex_opcode, mem_opcode, mem_rDestSelected, EX_rt, EX_rd, output signals)
 
 always @ (*) begin
 PCSel_output <= PCSel;
@@ -127,11 +132,12 @@ Reg_Data1_output <= Reg_Data1;
 Reg_Data2_output <= Reg_Data2;
 Imm32b_output <= Imm32b;
 
-// Lab 6 Signals
+// Hazard Detection / Moving PCSrc to ID Stage Signals
 BranchPC_output <=  BranchPC;
 PCSel_output <= PCSel;
 Stall_PC_output <= Stall_PC;
+Stall_ID_output <= Stall_ID;
+Stall_ID_EX_output <= Stall_ID_EX;
 end
-
 
 endmodule
