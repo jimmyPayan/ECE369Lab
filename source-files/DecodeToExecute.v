@@ -31,6 +31,8 @@ R_EnableIn, W_EnableIn, R_WidthIn, W_WidthIn,
 OpcodeIn, FunctIn, RegDstIn, ALUSrc0In, ALUSrc1In,
 // ID/EX Inputs
 ShamtIn, Reg_Data1In, Reg_Data2In, Imm32bIn, rtIn, rdIn,
+// Hazard Detect Inputs
+Stall_ID_EX,
 
 // *****Outputs*****
 // MEM/WB Control Signals
@@ -55,6 +57,8 @@ input [4:0] ShamtIn, rtIn, rdIn;
 input [5:0] OpcodeIn, FunctIn; 
 input [31:0] Reg_Data1In, Reg_Data2In, Imm32bIn;
 
+input Stall_ID_EX;
+
 output reg MemToRegOut, RegWriteOut; // Write Back Signals
 
 output reg R_EnableOut, W_EnableOut; // Memory Signals
@@ -67,6 +71,8 @@ output reg [5:0] OpcodeOut, FunctOut;
 output reg [31:0] Reg_Data1Out, Reg_Data2Out, Imm32bOut;
 
 always @ (posedge Clock) begin 
+
+if (Stall_ID_EX == 0) begin
 // Write Back Signals 
 MemToRegOut <= MemToRegIn;
 RegWriteOut <= RegWriteIn;
@@ -92,7 +98,35 @@ Reg_Data1Out <= Reg_Data1In;
 Reg_Data2Out <= Reg_Data2In;
 Imm32bOut <= Imm32bIn;
 
+end 
 
+else begin 
+
+MemToRegOut <= 0;
+RegWriteOut <= 0;
+
+// Memory Signals
+R_EnableOut <= 0;
+R_WidthOut <= 0;
+W_EnableOut <= 0;
+W_WidthOut <= 0;
+
+// Execute Signals
+RegDstOut <= 0;
+ALUSrc0Out <= 0;
+ALUSrc1Out <= 0;
+OpcodeOut <= 0;
+FunctOut <= 0;
+
+// Execute Data
+ShamtOut <= 0;
+rtOut <= 0;
+rdOut <= 0;
+Reg_Data1Out <= 0;
+Reg_Data2Out <= 0;
+Imm32bOut <= 0;
+
+end
 
 end
 

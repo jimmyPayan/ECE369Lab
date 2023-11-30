@@ -41,7 +41,7 @@ reg signed [31:0] memoryInitial [0:1023];
 
 initial 
 begin    // Read in memory from .mem file
-    $readmemh("data_memory.mem", memoryInitial);
+    $readmemh("public_data_memory_lab6.mem", memoryInitial);
 end
 
 always @ (negedge Clock) begin

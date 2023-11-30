@@ -85,7 +85,7 @@ rsSelected, rtSelected, rDestSelected_ID, regWriteData, RegWrite,
 Reg_Data1, Reg_Data2 
 );
 
-wire [31:0] Imm32b;
+wire [31:0] Imm32b, BranchPC;
 output reg [31:0] Imm32b_output;
 SignExtend16Bit Extend_Imm(
 // inputs
