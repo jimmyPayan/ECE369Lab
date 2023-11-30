@@ -48,7 +48,8 @@ output reg [31:0] instructionOut; // Instruction to be fetched by the processor
 reg [31:0] memory [0:1023]; // Array holding all instructions to be executed by the processor
 
 initial begin
-$readmemh("public_instruction_memory_lab6.mem", memory); 
+$readmemh("instruction_memory.mem", memory); 
+//$readmemh("public_instruction_memory_lab6.mem", memory); 
 //$readmemh("jump_test.mem", memory); 
 end
 

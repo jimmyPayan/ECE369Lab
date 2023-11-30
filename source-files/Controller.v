@@ -31,8 +31,7 @@ R_Enable, W_Enable, R_Width, W_Width,
 MemToReg, RegWrite 
 );
 
-input [5:0] Funct;
-input [5:0] Opcode;
+input [5:0] Funct, Opcode;
 
 output reg RegSrc0;
 output reg RegSrc1;
@@ -62,7 +61,7 @@ case (Opcode)
             RegSrc1 <= 1; 
             RegDst <= 1;
             ALUSrc0 <= 0;
-            ALUSrc1 <= 2;
+            ALUSrc1 <= 0; // top of r-type changes
             R_Enable <= 0; 
             W_Enable <= 0;
             MemToReg <= 0;
@@ -76,7 +75,7 @@ case (Opcode)
             RegSrc1 <= 1;
             RegDst <= 1;
             ALUSrc0 <= 1;
-            ALUSrc1 <= 2;
+            ALUSrc1 <= 0;
             R_Enable <= 0; 
             W_Enable <= 0;
             MemToReg <= 0;
@@ -90,7 +89,7 @@ case (Opcode)
             RegSrc1 <= 1; 
             RegDst <= 1;
             ALUSrc0 <= 1;
-            ALUSrc1 <= 2;           
+            ALUSrc1 <= 0;           
             R_Enable <= 0; 
             W_Enable <= 0;
             MemToReg <= 1;
@@ -105,7 +104,7 @@ case (Opcode)
             RegSrc1 <= 1;  
             RegDst <= 1;
             ALUSrc0 <= 0;
-            ALUSrc1 <= 2;
+            ALUSrc1 <= 0; // Correction 11/30/23
             R_Enable <= 0; 
             W_Enable <= 0;
             MemToReg <= 1;

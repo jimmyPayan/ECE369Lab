@@ -20,10 +20,12 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module ProcessorTopFileMIPS(Clock, PC_To_Instr_Mem_output, regWriteData_output);
+module ProcessorTopFileMIPS(Clock, PC_To_Instr_Mem_output, regWriteData_output, RegWrite_WB_output, rDestSelected_WB_output);
 
 // Wires used for first time in Instruction Fetch
 input Clock; // configure outputs
+output reg RegWrite_WB_output;
+output reg [4:0] rDestSelected_WB_output;
 output reg [31:0] PC_To_Instr_Mem_output;
 output reg [31:0] regWriteData_output;
 
@@ -49,7 +51,7 @@ Instruction_ID, PCPlusFour_ID
 wire RegDst_ID, ALUSrc0_ID,  R_Enable_ID, W_Enable_ID, MemToReg_ID, RegWrite_ID;
 wire [1:0] R_Width_ID, W_Width_ID, ALUSrc1_ID;
 wire [31:0] Reg_Data1_ID, Reg_Data2_ID, Imm32b_ID;
-wire [4:0] RegDestSelected_WB;
+wire [4:0] rDestSelected_WB;
 wire [31:0] regWriteData;
 wire RegWrite_WB;
 wire [5:0] Opcode_EX;
@@ -60,7 +62,7 @@ Instruction_Decode ID_Stage (
 Clock, 
 // ****Inputs****
 // Standard ID Stage
-Instruction_ID, PCPlusFour_ID, RegDestSelected_WB, regWriteData, RegWrite_WB, // Inputs
+Instruction_ID, PCPlusFour_ID, rDestSelected_WB, regWriteData, RegWrite_WB, // Inputs
 // Hazard Detection 
 Instruction_ID[25:21], Instruction_ID[20:16], rDestSelected_MEM, Opcode_EX, Opcode_MEM,
 
@@ -117,7 +119,7 @@ Shamt_EX, Reg_Data1_EX, Reg_Data2_EX, Imm32b_EX, rt_EX, rd_EX
 wire Zero_EX;
 wire [27:0] j_sll_two_EX; 
 wire [31:0] ALUResult_EX, PC_Plus_Branch_EX;
-wire [4:0] RegDestSelected_EX;
+wire [4:0] rDestSelected_EX;
 
 Execute EX_Stage(
 // Control Signals
@@ -130,7 +132,7 @@ Reg_Data1_EX, Reg_Data2_EX, 0, 0, rt_EX, rd_EX,
 Shamt_EX, Imm32b_EX,
 
 // Outputs
-ALUResult_EX, PC_Plus_Branch_EX, RegDestSelected_EX
+ALUResult_EX, PC_Plus_Branch_EX, rDestSelected_EX
 );
 
 wire R_Enable_MEM, W_Enable_MEM, RegWrite_MEM, MemToReg_MEM, Zero_MEM;
@@ -180,7 +182,7 @@ Clock,
 // Inputs
 RegWrite_MEM, MemToReg_MEM, R_Data_MEM, ALUResult_MEM, rDestSelected_MEM,
 // Outputs
-RegWrite_WB, MemToReg_WB, R_Data_WB, ALUResult_WB, RegDestSelected_WB
+RegWrite_WB, MemToReg_WB, R_Data_WB, ALUResult_WB, rDestSelected_WB
 );
 
 Write_Back WB_Stage(
@@ -190,6 +192,8 @@ regWriteData // Outputs
 );
 
 always @ (*) begin
+rDestSelected_WB_output <= rDestSelected_WB;
+RegWrite_WB_output <= RegWrite_WB;
 PC_To_Instr_Mem_output <= PC_To_Instr_Mem_IF;
 regWriteData_output <= regWriteData;
 end

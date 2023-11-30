@@ -24,8 +24,11 @@ module TopLevelTestbench();
     reg Clock;
     wire [31:0] ProgramCounter;
     wire [31:0] WriteData;
+    wire [4:0] rDestSelected;
+    wire regWrite;
     
-    ProcessorTopFileMIPS test(Clock, ProgramCounter, WriteData);
+    
+    ProcessorTopFileMIPS test(Clock, ProgramCounter, WriteData, regWrite, rDestSelected);
     
     always begin
         Clock <= 0;
