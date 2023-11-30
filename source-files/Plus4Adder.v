@@ -26,7 +26,7 @@ input [31:0] ValueIn;
 input Stall_PC;
 output reg [31:0] ValuePlus4;
 
-always @ (ValueIn) begin
+always @ (Stall_PC) begin
 case(Stall_PC)
     0: begin ValuePlus4 <= ValueIn + 4; end
     1: begin ValuePlus4 <= ValueIn; end

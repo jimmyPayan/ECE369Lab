@@ -34,7 +34,7 @@ wire [31:0] BranchPC_IF, PCPlusFour_IF, Instruction_IF;
 wire [31:0] PC_To_Instr_Mem_IF;
 Instruction_Fetch IF_Stage(
 Clock, 
-PCSel_ID, BranchPC_IF, 0, //Stall_PC hardcoded to 0
+PCSel_ID, BranchPC_IF, Stall_PC, //Stall_PC hardcoded to 0
 Instruction_IF, PCPlusFour_IF, PC_To_Instr_Mem_IF
 );
 
@@ -43,7 +43,7 @@ wire [31:0] Instruction_ID, PCPlusFour_ID;
 wire Stall_ID;
 FetchToDecode IF_ID_Pipeline(
 Clock, 
-Instruction_IF, PCPlusFour_IF, PCSel_ID, 0, //Stall_ID
+Instruction_IF, PCPlusFour_IF, PCSel_ID, Stall_ID, //Stall_ID
 Instruction_ID, PCPlusFour_ID
 );
 
@@ -56,6 +56,7 @@ wire [31:0] regWriteData;
 wire RegWrite_WB;
 wire [5:0] Opcode_EX;
 wire Stall_ID_EX;
+wire [4:0] rt_EX, rd_EX;
 wire [4:0] rDestSelected_MEM;
 
 Instruction_Decode ID_Stage (
@@ -64,7 +65,7 @@ Clock,
 // Standard ID Stage
 Instruction_ID, PCPlusFour_ID, rDestSelected_WB, regWriteData, RegWrite_WB, // Inputs
 // Hazard Detection 
-Instruction_ID[25:21], Instruction_ID[20:16], rDestSelected_MEM, Opcode_EX, Opcode_MEM,
+rt_EX, rd_EX, rDestSelected_MEM, Opcode_EX, Opcode_MEM,
 
 // ****Outputs****
 //IF Control Signals
@@ -85,7 +86,7 @@ Stall_PC, Stall_ID, Stall_ID_EX
 // Wires used for first time in ID/EX
 wire MemToReg_EX, RegWrite_EX, R_Enable_EX, W_Enable_EX, RegDst_EX, ALUSrc0_EX;
 wire [1:0] R_Width_EX, W_Width_EX, ALUSrc1_EX;
-wire [4:0] Shamt_EX, rt_EX, rd_EX;
+wire [4:0] Shamt_EX;
 wire [5:0] Instruction_EX;
 wire [5:0] Funct_EX;
 wire [31:0] PCPlusFour_EX, Reg_Data1_EX, Reg_Data2_EX, Imm32b_EX;
@@ -102,7 +103,7 @@ Instruction_ID[31:26], Instruction_ID[5:0], RegDst_ID, ALUSrc0_ID, ALUSrc1_ID,
 // ID/EX Inputs
 Instruction_ID[10:6], Reg_Data1_ID, Reg_Data2_ID, Imm32b_ID, Instruction_ID[20:16], Instruction_ID[15:11], 
 // Hazard Detect Inputs
-0, //Stall_ID_EX hardcoded to 0
+Stall_ID_EX, //Stall_ID_EX hardcoded to 0
 
 // ****Outputs****
 // MEM/WB Control Signals
