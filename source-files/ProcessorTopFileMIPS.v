@@ -100,7 +100,7 @@ Instruction_ID[31:26], Instruction_ID[5:0], RegDst_ID, ALUSrc0_ID, ALUSrc1_ID,
 // ID/EX Inputs
 Instruction_ID[10:6], Reg_Data1_ID, Reg_Data2_ID, Imm32b_ID, Instruction_ID[20:16], Instruction_ID[15:11], 
 // Hazard Detect Inputs
-Stall_ID_EX,
+0, //Stall_ID_EX hardcoded to 0
 
 // ****Outputs****
 // MEM/WB Control Signals
@@ -178,7 +178,7 @@ MemoryToWriteBack MEM_WB_Pipeline(
 Clock,
 
 // Inputs
-RegWrite_MEM, MemToReg_MEM, R_Data_MEM, ALUResult_MEM, RegDestSelected_MEM,
+RegWrite_MEM, MemToReg_MEM, R_Data_MEM, ALUResult_MEM, rDestSelected_MEM,
 // Outputs
 RegWrite_WB, MemToReg_WB, R_Data_WB, ALUResult_WB, RegDestSelected_WB
 );

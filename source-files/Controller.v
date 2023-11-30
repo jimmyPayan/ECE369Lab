@@ -40,7 +40,7 @@ output reg RegSrc1;
 
 output reg RegDst;
 output reg ALUSrc0;
-output reg ALUSrc1;
+output reg [1:0] ALUSrc1;
 output reg R_Enable;
 output reg W_Enable;
 output reg MemToReg;

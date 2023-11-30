@@ -57,8 +57,8 @@ output reg [4:0] RegDestSelected_output;
 
 SignExtend5to32 shamtExtend(sa, Shamt_sll_two);
 
-Mux32bit2to1 ALU_A0_Mux(Reg_Data1, Shamt_sll_two, ALU_A0, ALUSrc0);
-Mux32bit4to1 ALU_B0_Mux(Reg_Data2, Imm32b, 8, 32'hXXXXXXXX, ALU_B0, ALUSrc1);
+Mux32bit2to1 ALU_A0_Mux(Reg_Data1, Shamt_sll_two, ALU_A0, ALUSrcA0);
+Mux32bit4to1 ALU_B0_Mux(Reg_Data2, Imm32b, 8, 32'hXXXXXXXX, ALU_B0, ALUSrcB0);
 
 Mux32bit2to1 ALU_A1_Mux(ALU_A0, 32'hZZZZXXXX, ALU_A1, ALUSrcA1);
 Mux32bit2to1 ALU_B1_Mux(ALU_B0, 32'hXXXXZZZZ, ALU_B1, ALUSrcB1);

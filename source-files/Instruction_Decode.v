@@ -50,9 +50,9 @@ input [31:0] Instruction, regWriteData, PCPlusFour;
 input [5:0] Opcode_EX, Opcode_MEM;
 input [4:0] rDestSelected_ID, rDestSelected_MEM, rt_EX, rd_EX;
 
-wire PCSel, RegDst, ALUSrc0, ALUSrc1, R_Enable, W_Enable, MemToReg, RegWriteOut;
+wire PCSel, RegDst, ALUSrc0, R_Enable, W_Enable, MemToReg, RegWriteOut;
 wire [3:0] BranchSel;
-wire [1:0] R_Width, W_Width;
+wire [1:0] R_Width, W_Width, ALUSrc1;
 output reg PCSel_output, Stall_PC_output, Stall_ID_output, Stall_ID_EX_output, RegDst_output, ALUSrc0_output, R_Enable_output, W_Enable_output, MemToReg_output, RegWriteOut_output;
 output reg [1:0] R_Width_output, W_Width_output, ALUSrc1_output;
 output reg [31:0] BranchPC_output;
@@ -64,7 +64,7 @@ Instruction [31:26], Instruction [5:0],
 
 // Outputs
 RegSrc0, RegSrc1,
-ALUSrc0, ALUSrc1, RegDst, 
+RegDst, ALUSrc0, ALUSrc1, 
 R_Enable, W_Enable, R_Width, W_Width, 
 MemToReg, RegWriteOut
 );
