@@ -32,7 +32,7 @@ wire [31:0] BranchPC_IF, PCPlusFour_IF, Instruction_IF;
 wire [31:0] PC_To_Instr_Mem_IF;
 Instruction_Fetch IF_Stage(
 Clock, 
-PCSel_ID, BranchPC_IF, Stall_PC,
+PCSel_ID, BranchPC_IF, 0, //Stall_PC hardcoded to 0
 Instruction_IF, PCPlusFour_IF, PC_To_Instr_Mem_IF
 );
 
@@ -41,7 +41,7 @@ wire [31:0] Instruction_ID, PCPlusFour_ID;
 wire Stall_ID;
 FetchToDecode IF_ID_Pipeline(
 Clock, 
-Instruction_IF, PCPlusFour_IF, PCSel_ID, Stall_ID, 
+Instruction_IF, PCPlusFour_IF, PCSel_ID, 0, //Stall_ID
 Instruction_ID, PCPlusFour_ID
 );
 
