@@ -20,28 +20,30 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module MemoryToWriteBack
-(Clock, 
-RegWriteIn, MemToRegIn, R_Data_In, ALUResult_In, rDestSelected_in, PCNew_in, PCSrc_in,
-RegWriteOut, MemToRegOut, R_Data_Out, ALUResult_Out, rDestSelected_Out, PCNew_Out, PCSrc_Out
+module MemoryToWriteBack(
+Clock, 
+
+// Inputs
+RegWrite_In, MemToReg_In, R_Data_In, ALUResult_In, rDestSelected_In,
+
+// Outputs
+RegWrite_Out, MemToReg_Out, R_Data_Out, ALUResult_Out, rDestSelected_Out
 );
 input Clock;
-input RegWriteIn, MemToRegIn, PCSrc_in;
-input [31:0] ALUResult_In, R_Data_In, PCNew_in;
-input [4:0] rDestSelected_in;
+input RegWrite_In, MemToReg_In;
+input [31:0] ALUResult_In, R_Data_In;
+input [4:0] rDestSelected_In;
 
-output reg RegWriteOut, MemToRegOut, PCSrc_Out;
-output reg [31:0] ALUResult_Out, R_Data_Out, PCNew_Out;
+output reg RegWrite_Out, MemToReg_Out;
+output reg [31:0] ALUResult_Out, R_Data_Out;
 output reg [4:0] rDestSelected_Out;
 
 always @ (posedge Clock) begin 
-RegWriteOut <= RegWriteIn;
-MemToRegOut <= MemToRegIn;
+RegWrite_Out <= RegWrite_In;
+MemToReg_Out <= MemToReg_In;
 ALUResult_Out <= ALUResult_In;
 R_Data_Out <= R_Data_In;
-rDestSelected_Out <= rDestSelected_in;
-PCSrc_Out <= PCSrc_in;
-PCNew_Out <= PCNew_in;
+rDestSelected_Out <= rDestSelected_In;
 end
 
 endmodule

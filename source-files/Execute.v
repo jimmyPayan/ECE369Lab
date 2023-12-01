@@ -21,51 +21,56 @@
 
 
 module Execute(
-RegDst, ALUSrc0, ALUSrc1, Shamt,
-Reg_Data1, Reg_Data2, Imm32b, PCPlusFour, Instruction, Opcode, instr_index, rt, rd,
+// Control signals
+ALUSrcA0, ALUSrcB0, ALUSrcA1, ALUSrcB1, RegDst, Opcode, Funct,
 
-Zero_output, ALUResult_output,
-j_sll_two_output, PC_Plus_Branch_output, RegDestSelected_output
+// A0 B0 A1 B1 regDest mux inputs from ID 
+Reg_Data1, Reg_Data2, dont_care_A1, dont_care_B1, rt, rd,
+
+// Raw inputs
+sa, Imm32b,
+
+// Outputs
+ALUResult_output, PC_Plus_Branch_output, RegDestSelected_output
 );
 
-input ALUSrc0, RegDst;
-input [1:0] ALUSrc1;
-input [4:0] Shamt, rt, rd;
-input [31:0] Reg_Data1, Reg_Data2, Imm32b, PCPlusFour;
-input [5:0] Instruction, Opcode;
-input [25:0] instr_index;
+input ALUSrcA0, RegDst, ALUSrcA1, ALUSrcB1;
+input [1:0] ALUSrcB0;
+input [4:0] sa, rt, rd;
+input [31:0] Reg_Data1, Reg_Data2, Imm32b;
+input [5:0] Opcode, Funct;
+input [31:0] dont_care_A1, dont_care_B1;
+
 
 wire [3:0] ALUControl;
-wire [31:0] ALU_A, ALU_B;
-wire [31:0] Imm32b_sll_two;
-wire [31:0] Shamtout;
-
-wire Zero;
+wire [31:0] ALU_A1, ALU_B1;
+wire [31:0] ALU_A0, ALU_B0;
+wire [31:0] Shamt_sll_two;
 wire [31:0] ALUResult;
 wire [31:0] PC_Plus_Branch;
-wire [27:0] j_sll_two;
 wire [4:0] RegDestSelected;
-output reg Zero_output;
+wire Zero; // sure if we need a zero bit we have one but we don't
+
 output reg [31:0] ALUResult_output;
 output reg [31:0] PC_Plus_Branch_output;
-output reg [27:0] j_sll_two_output;
 output reg [4:0] RegDestSelected_output;
 
-SignExtend5to32 shamtExtend(Shamt, Shamtout);
-Mux32bit2to1 ALU_A_Mux(Reg_Data1, Shamtout, ALU_A, ALUSrc0);
-Mux32bit4to1 ALU_B_Mux(Reg_Data2, Imm32b, 8, 10, ALU_B, ALUSrc1);
-ALUControl ALU_Control(Instruction, Opcode, ALUControl);
-ALU Sys_ALU(ALUControl, ALU_A, ALU_B, ALUResult, Zero);
-LeftShift2AndExtend SLL_j(instr_index, j_sll_two);
-LeftShift2 SLL_Imm(Imm32b, Imm32b_sll_two);
-Add Branch_Adder(PCPlusFour, Imm32b_sll_two, PC_Plus_Branch);
+SignExtend5to32 shamtExtend(sa, Shamt_sll_two);
+
+Mux32bit2to1 ALU_A0_Mux(Reg_Data1, Shamt_sll_two, ALU_A0, ALUSrcA0);
+Mux32bit4to1 ALU_B0_Mux(Reg_Data2, Imm32b, 8, 32'hXXXXXXXX, ALU_B0, ALUSrcB0);
+
+Mux32bit2to1 ALU_A1_Mux(ALU_A0, 32'hZZZZXXXX, ALU_A1, ALUSrcA1);
+Mux32bit2to1 ALU_B1_Mux(ALU_B0, 32'hXXXXZZZZ, ALU_B1, ALUSrcB1);
+
+ALUControl ALU_Control(Opcode, Funct, ALUControl);
+ALU Sys_ALU(ALUControl, ALU_A1, ALU_B1, ALUResult, Zero);
+
 Mux5bit2to1 regDest_Mux(rt, rd, RegDestSelected, RegDst);
 
 always @(*) begin
-Zero_output <= Zero;
 ALUResult_output <= ALUResult;
 PC_Plus_Branch_output <= PC_Plus_Branch;
-j_sll_two_output <= j_sll_two;
 RegDestSelected_output <= RegDestSelected;
 end
 

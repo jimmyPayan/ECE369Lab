@@ -22,33 +22,30 @@
 
 module Memory(
 Clock, 
-R_Enable, W_Enable, R_Width, W_Width, BranchSel, PC_Plus_Branch, Zero, ALUResult, Reg_Data2, j_sll_two,
-R_Data_output, PCNew_output, PCSrc_output
+
+// Inputs
+R_Enable, W_Enable, R_Width, W_Width, ALUResult, W_Data,
+
+// Outputs
+R_Data_output
 );
-    input R_Enable, W_Enable, Zero, Clock;
+    input R_Enable, W_Enable, Clock;
     input [1:0] R_Width, W_Width;
-    input [3:0] BranchSel;
-    input [31:0] PC_Plus_Branch, ALUResult, Reg_Data2;
-    input [27:0] j_sll_two;
+    input [31:0] ALUResult, W_Data;
 
     wire [31:0] R_Data, PCNew;
     wire PCSrc;
-    output reg [31:0] R_Data_output, PCNew_output;
-    output reg PCSrc_output;
+    output reg [31:0] R_Data_output;
     
     DataMemory Data_Memory(
     Clock, 
     W_Enable, R_Enable, 
     ALUResult, 
-    R_Data, Reg_Data2, 
+    R_Data, W_Data, 
     R_Width, W_Width);
-
-    PCSrcControl test(BranchSel, Zero, ALUResult, j_sll_two, PC_Plus_Branch, PCSrc, PCNew);
     
     always @ (*) begin
     R_Data_output <= R_Data;
-    PCNew_output <= PCNew;
-    PCSrc_output <= PCSrc;
     end
 
 endmodule

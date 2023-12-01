@@ -20,8 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module SignExtend16Bit(inputValue, outputValue/*, extendSel*/);
-//input extendSel; // 0 = 0's extend, 1 = sign extend
+module SignExtend16Bit(inputValue, outputValue);
 input [15:0] inputValue;
 output reg [31:0] outputValue;
 always @ (*) begin
