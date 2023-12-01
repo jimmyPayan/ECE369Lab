@@ -52,7 +52,7 @@ always @ (ID_rs, ID_rt) begin
     end
     
     // R-Type or I-Type dependency between an instruction in ID and an instruction in MEM
-    else if ((ID_rs == MEM_rDestSelected || ID_rt == MEM_rDestSelected) && (MEM_rDestSelected != 0) && (ID_rs != 0 && ID_rt != 0)) begin
+    else if (((ID_rs == MEM_rDestSelected && ID_rs != 0) || (ID_rt == MEM_rDestSelected && ID_rt != 0)) && (MEM_rDestSelected != 0)) begin
         Stall_ID <= 1; 
         Stall_PC <= 1;
         Stall_ID_EX <= 1;

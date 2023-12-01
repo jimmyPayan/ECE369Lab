@@ -110,7 +110,7 @@ PCSel, BranchPC);
 wire Stall_PC;
 HazardDetection Hazard_Detect(
 // Inputs
-Clock, Instruction [25:21], Instruction [20:16], Opcode_EX, Opcode_MEM, rDestSelected_MEM, rt_EX, rd_EX,
+Clock, Instruction [25:21], Instruction [20:16], Opcode_EX, Opcode_MEM, rDestSelected_MEM, rt_EX, rd_EX, 
 
 // Outputs
 Stall_ID, Stall_PC, Stall_ID_EX

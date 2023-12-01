@@ -340,7 +340,21 @@ case (Opcode)
         RegWrite <= 1;
         R_Width <= 2'bXX;
         W_Width <= 2'bXX;
-    end   
+    end
+    
+    // andi
+    6'b001100: begin
+        RegSrc0 <= 0;
+        RegSrc1 <= 1;
+        RegDst <= 0;
+        ALUSrc0 <= 0;
+        ALUSrc1 <= 1;
+        R_Enable <= 0;
+        MemToReg <= 1;
+        RegWrite <= 1;
+        R_Width <= 2'bXX;
+        W_Width <= 2'bXX;
+    end    
     
     // ori
     6'b001101: begin
