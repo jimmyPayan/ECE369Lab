@@ -34,7 +34,9 @@ ReadData1, ReadData2
     input [4:0] ReadReg1, ReadReg2, WAddr;
     input signed [31:0] WData;
     input RegWrite, Clk;
-    output reg signed [31:0] ReadData1, ReadData2;
+    output signed [31:0] ReadData1, ReadData2;
+   // reg [31:0] ReadData1_reg, ReadData2_reg;
+    
     
     integer i;
     
@@ -69,16 +71,22 @@ ReadData1, ReadData2
         Registers[31] <= 0;
     end
     
-    always @(posedge Clk) begin
+    assign ReadData1 = Registers[ReadReg1];
+    assign ReadData2 = Registers[ReadReg2];
+    
+    always @(negedge Clk) begin
         if (RegWrite == 1 && ((WAddr != 0) && (WAddr != 26) && (WAddr != 27))) begin
             Registers[WAddr] <= WData;
         end
         
     end
     
-    always @(negedge Clk) begin
-        ReadData1 <= Registers[ReadReg1];
-        ReadData2 <= Registers[ReadReg2];        
-    end            
+   /* always @(negedge Clk) begin
+        ReadData1_reg <= Registers[ReadReg1];
+        ReadData2_reg <= Registers[ReadReg2];        
+    end  
+    
+    */
+    
            
 endmodule

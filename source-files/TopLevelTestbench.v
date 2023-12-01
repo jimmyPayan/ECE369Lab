@@ -32,9 +32,9 @@ module TopLevelTestbench();
     
     always begin
         Clock <= 0;
-        #200;
+        #800;
         Clock <= 1;
-        #200;
+        #800;
     end 
 
 endmodule

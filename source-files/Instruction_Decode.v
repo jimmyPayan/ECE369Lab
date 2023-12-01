@@ -138,7 +138,7 @@ PCSel_output <= PCSel;
 Stall_PC_output <= Stall_PC;
 Stall_ID_output <= Stall_ID;
 Stall_ID_EX_output <= Stall_ID_EX;
-end
+end 
 
 
 endmodule
