@@ -93,6 +93,7 @@ Instruction[15:0],
 // outputs
 Imm32b);
 
+wire Stall_PC;
 // Left shift should not be its own module.
 wire [31:0] PC_Plus_Branch;
 Add Branch_adder(
@@ -103,14 +104,14 @@ PC_Plus_Branch);
 
 PCSrcControl PCSrc_Control(
 // inputs
-Instruction, PC_Plus_Branch, Reg_Data1, Reg_Data2, 
+Instruction, PC_Plus_Branch, Reg_Data1, Reg_Data2, Stall_PC,
 // outputs
 PCSel, BranchPC);
 
-wire Stall_PC;
+
 HazardDetection Hazard_Detect(
 // Inputs
-Clock, Instruction [25:21], Instruction [20:16], Opcode_EX, Opcode_MEM, rDestSelected_MEM, rt_EX, rd_EX, 
+Clock, Instruction [25:21], Instruction [20:16], Opcode_EX, Opcode_MEM, rDestSelected_MEM, rt_EX, rd_EX, Instruction[31:26],
 
 // Outputs
 Stall_ID, Stall_PC, Stall_ID_EX

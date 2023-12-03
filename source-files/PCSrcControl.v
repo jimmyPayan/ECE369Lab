@@ -21,19 +21,21 @@
 
 module PCSrcControl(
 // ***Inputs***
-Instruction,  PC_Plus_Branch, Reg_Data1, Reg_Data2,
+Instruction,  PC_Plus_Branch, Reg_Data1, Reg_Data2, Stall_PC,
 
 // ***Outputs***
 PCSel, BranchPC
 
 ); 
     input [31:0] Instruction, PC_Plus_Branch, Reg_Data1, Reg_Data2;
+    input Stall_PC;
     
     output reg PCSel;
     output reg [31:0] BranchPC;
     
     // Make it always @ (*), functionality should stay the same though
     always @ (*) begin
+    if (Stall_PC == 1'b0) begin
         case (Instruction[31:26])   
             // jr 
             6'b000000: begin
@@ -79,7 +81,7 @@ PCSel, BranchPC
             // j
             6'b000010: begin
                 PCSel <= 1;
-                BranchPC <= {4'b0000, (Instruction[25:0] << 2)};
+                BranchPC <= {6'b000000, (Instruction[25:0])};
             end
             
             // jal (BE SURE TO TEST THIS)
@@ -128,6 +130,11 @@ PCSel, BranchPC
                 PCSel <= 0;
                 BranchPC <= 32'hXXXXXXXX;
                 end           
-          endcase              
+          endcase 
+      end 
+      
+    else begin 
+        PCSel <= 0;
+    end             
     end
 endmodule
