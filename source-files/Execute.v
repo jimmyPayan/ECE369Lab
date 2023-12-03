@@ -22,26 +22,34 @@
 
 module Execute(
 // Control signals
-ALUSrcA0, ALUSrcB0, ALUSrcA1, ALUSrcB1, RegDst, Opcode, Funct,
+ALUSrcA0, ALUSrcB0, RegDst, Opcode, Funct,
 
 // A0 B0 A1 B1 regDest mux inputs from ID 
-Reg_Data1, Reg_Data2, dont_care_A1, dont_care_B1, rt, rd,
+Reg_Data1, Reg_Data2, rt, rd, rs,
 
 // Raw inputs
 sa, Imm32b,
+
+//Forwarding Inputs 
+MEM_rDestSelected, WB_rDestSelected, 
+
+// Redirected Forwarding Signals
+MEM_ALUResult, WB_regWriteData,
 
 // Outputs
 ALUResult_output, PC_Plus_Branch_output, RegDestSelected_output
 );
 
-input ALUSrcA0, RegDst, ALUSrcA1, ALUSrcB1;
+input ALUSrcA0, RegDst;
 input [1:0] ALUSrcB0;
-input [4:0] sa, rt, rd;
+input [4:0] sa, rt, rd, rs;
 input [31:0] Reg_Data1, Reg_Data2, Imm32b;
 input [5:0] Opcode, Funct;
-input [31:0] dont_care_A1, dont_care_B1;
+input [4:0] MEM_rDestSelected, WB_rDestSelected;
+input [31:0] MEM_ALUResult, WB_regWriteData;
 
 
+wire [1:0] ALUSrcA1, ALUSrcB1;
 wire [3:0] ALUControl;
 wire [31:0] ALU_A1, ALU_B1;
 wire [31:0] ALU_A0, ALU_B0;
@@ -57,11 +65,13 @@ output reg [4:0] RegDestSelected_output;
 
 SignExtend5to32 shamtExtend(sa, Shamt_sll_two);
 
+ForwardingUnit ForwardUnit(MEM_rDestSelected, WB_rDestSelected, Opcode, rt, rs, ALUSrcA1, ALUSrcB1);
+
 Mux32bit2to1 ALU_A0_Mux(Reg_Data1, Shamt_sll_two, ALU_A0, ALUSrcA0);
 Mux32bit4to1 ALU_B0_Mux(Reg_Data2, Imm32b, 8, 32'hXXXXXXXX, ALU_B0, ALUSrcB0);
 
-Mux32bit2to1 ALU_A1_Mux(ALU_A0, 32'hZZZZXXXX, ALU_A1, ALUSrcA1);
-Mux32bit2to1 ALU_B1_Mux(ALU_B0, 32'hXXXXZZZZ, ALU_B1, ALUSrcB1);
+Mux32bit4to1 ALU_A1_Mux(ALU_A0, MEM_ALUResult, WB_regWriteData, 0, ALU_A1, ALUSrcA1);
+Mux32bit4to1 ALU_B1_Mux(ALU_B0, MEM_ALUResult, WB_regWriteData, 0, ALU_B1, ALUSrcB1);
 
 ALUControl ALU_Control(Opcode, Funct, ALUControl);
 ALU Sys_ALU(ALUControl, ALU_A1, ALU_B1, ALUResult, Zero);

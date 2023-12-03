@@ -36,75 +36,47 @@ output reg Stall_ID, Stall_PC, Stall_ID_EX;
 
 always @ (ID_rs, ID_rt) begin
     
-   // R-Type -> R-Type || I-Type (Store or Branch) -> R-Type
-   if ((((ID_rs == EX_rd) && (ID_rs != 0)) || ((ID_rt == EX_rd) && (ID_rt != 0))) && (EX_opcode == 6'b000000 || EX_opcode == 6'b011100) && (ID_opcode == 6'b000000 || ID_opcode == 6'b011100 || (ID_opcode[5:3] == 3'b000 && (ID_opcode[2:0] > 3'b000)) || (ID_opcode[5:3] == 3'b101))) begin
-        Stall_ID <= 1;
-        Stall_PC <= 1;
-        Stall_ID_EX <= 1;
-    end 
-    
-    
-    
-    // I-Type (Arithmetic or Load) -> R-Type
-    
-    else  if ((ID_rs == EX_rd && ID_rs != 0) && (EX_opcode == 6'b000000 || EX_opcode == 6'b011100) && (ID_opcode != 6'b000000 || ID_opcode != 6'b011100 || !(ID_opcode[5:3] == 3'b000 && (ID_opcode[2:0] > 3'b000)) || (ID_opcode[5:3] != 3'b101))) begin
-        Stall_ID <= 1;
-        Stall_PC <= 1;
-        Stall_ID_EX <= 1;
-    end
-    
-    
-    
-    // R-Type -> I-Type (Arithmetic or Load)
-    else if ((((ID_rs == EX_rt) && (ID_rs != 0)) || ((ID_rt == EX_rt) && (ID_rt != 0))) && (ID_opcode == 6'b000000 || ID_opcode == 6'b011100) && (EX_opcode != 6'b000000 || EX_opcode != 6'b011100 || !(EX_opcode[5:3] == 3'b000 && (EX_opcode[2:0] > 3'b000)) || (EX_opcode[5:3] != 3'b101))) begin
-        Stall_ID <= 1;
-        Stall_PC <= 1;
-        Stall_ID_EX <= 1;
-    end
-    
-    
-    
-    // I-Type (Arithmetic or Load) -> I-Type (Arithmetic or Load)
-  else if ((ID_rs == EX_rt && ID_rs != 0) && (ID_opcode != 6'b000000 || ID_opcode != 6'b011100 || !(ID_opcode[5:3] == 3'b000 && (ID_opcode[2:0] > 3'b000)) || (ID_opcode[5:3] != 3'b101)) && (EX_opcode != 6'b000000 || EX_opcode != 6'b011100 || !(EX_opcode[5:3] == 3'b000 && (EX_opcode[2:0] > 3'b000)) || (EX_opcode[5:3] != 3'b101))) begin
-        Stall_ID <= 1;
-        Stall_PC <= 1;
-        Stall_ID_EX <= 1;
-    end
-    
-    
-    // I-Type (Branch or Store) -> I-Type (Arithmetic or Load)
-    
-    else if (((ID_rs == EX_rt && ID_rs != 0) || (ID_rt == EX_rt && ID_rt != 0)) && ((ID_opcode[5:3] == 3'b000 && (ID_opcode[2:0] > 3'b000)) || (ID_opcode[5:3] == 3'b101)) && (EX_opcode != 6'b000000 || EX_opcode != 6'b011100 || !(EX_opcode[5:3] == 3'b000 && (EX_opcode[2:0] > 3'b000)) || (EX_opcode[5:3] != 3'b101))) begin
-        Stall_ID <= 1;
-        Stall_PC <= 1;
-        Stall_ID_EX <= 1;
-    end
-    
-    
-    
-    
-   // I-Type (Store or Branch) -> I-Type (Store or Branch)
-   else if (((ID_rs == EX_rt && ID_rs != 0) || (ID_rt == EX_rt && ID_rt != 0)) && (EX_opcode != 6'b000000 || EX_opcode != 6'b011100 || EX_opcode != 6'b101011 || EX_opcode != 6'b101000 || EX_opcode != 6'b101001) && (ID_opcode == 6'b000000 || ID_opcode == 6'b011100)) begin 
-        Stall_ID <= 1;
-        Stall_PC <= 1;
-        Stall_ID_EX <= 1;
-    end
-
-    
-    // R-Type or I-Type dependency between an instruction in ID and an instruction in MEM
-   else if (((ID_rs == MEM_rDestSelected) && (ID_rs != 0)) || ((ID_rt == MEM_rDestSelected) && (ID_rt != 0) && ((ID_opcode[5:3] == 3'b000 && (ID_opcode[2:0] > 3'b000)) || (ID_opcode[5:3] == 3'b101) || (ID_opcode == 6'b000000) || (ID_opcode == 6'b011100)))) begin
-        Stall_ID <= 1; 
-        Stall_PC <= 1;
-        Stall_ID_EX <= 1;
-    end
-    
-    
-    // No dependency exists
-    else begin 
-        Stall_ID <= 0;
-        Stall_PC <= 0;
-        Stall_ID_EX <= 0;
-    end
+   // Branch -> R-Type in EX
+   if ((ID_opcode[5:3] == 3'b000 && ID_opcode[2:0] > 3'b000) && (ID_rs == EX_rd || ID_rt == EX_rd) && (EX_opcode == 6'b000000 || EX_opcode == 6'b011100)) begin
+    Stall_ID <= 1;
+    Stall_PC <= 1;
+    Stall_ID_EX <= 1;
+   end 
+   
+   // Branch -> I-Type (Arithmetic or LW) in EX
+   else if ((ID_opcode[5:3] == 3'b000 && ID_opcode[2:0] > 3'b000) && (ID_rs == EX_rt || ID_rt == EX_rt) && (EX_opcode != 6'b000000 && EX_opcode != 6'b011100 && EX_opcode != 6'b100011)) begin
+    Stall_PC <= 1;
+    Stall_ID <= 1;
+    Stall_ID_EX <= 1;  
+   end
+   
+   // Branch or Jump -> MEM
+   else if ((ID_opcode[5:3] == 3'b000 && ID_opcode[2:0] > 3'b000) && (ID_rs == MEM_rDestSelected || ID_rt == MEM_rDestSelected) && (MEM_opcode != 6'b100011)) begin
+    Stall_ID <= 1;
+    Stall_PC <= 1;
+    Stall_ID_EX <= 1;
+   end  
+   // FIX ME: Redo hazard detect logic with 
+   // R-Type -> lw
+   else if ((EX_opcode == 6'b100011) && (ID_opcode == 6'b000000 || ID_opcode == 6'b101011 || ID_opcode == 6'b011100) && (ID_rs == EX_rt || ID_rt == EX_rt)) begin
+    Stall_ID <= 1;
+    Stall_PC <= 1;
+    Stall_ID_EX <= 1;
+   end
+   
+   // I_Type -> lw
+   else if ((EX_opcode == 6'b100011) && (ID_opcode != 6'b000000 && ID_opcode != 6'b101011 && ID_opcode != 6'b011100 && !(ID_opcode[5:3] == 3'b000 && ID_opcode[2:0] > 3'b000)) && (ID_rs == EX_rt)) begin
+    Stall_ID <= 1;
+    Stall_PC <= 1;
+    Stall_ID_EX <= 1;
+   end
+   
+   else begin
+    Stall_PC <= 1;
+    Stall_ID <= 1;
+    Stall_ID_EX <= 1;
+   end
+   
     
 end
 

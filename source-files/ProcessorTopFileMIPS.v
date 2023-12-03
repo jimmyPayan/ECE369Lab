@@ -86,7 +86,7 @@ Stall_PC, Stall_ID, Stall_ID_EX
 // Wires used for first time in ID/EX
 wire MemToReg_EX, RegWrite_EX, R_Enable_EX, W_Enable_EX, RegDst_EX, ALUSrc0_EX;
 wire [1:0] R_Width_EX, W_Width_EX, ALUSrc1_EX;
-wire [4:0] Shamt_EX;
+wire [4:0] Shamt_EX, rs_EX;
 wire [5:0] Instruction_EX;
 wire [5:0] Funct_EX;
 wire [31:0] PCPlusFour_EX, Reg_Data1_EX, Reg_Data2_EX, Imm32b_EX;
@@ -101,7 +101,7 @@ R_Enable_ID, W_Enable_ID, R_Width_ID, W_Width_ID,
 // ID/EX Control Signals 
 Instruction_ID[31:26], Instruction_ID[5:0], RegDst_ID, ALUSrc0_ID, ALUSrc1_ID, 
 // ID/EX Inputs
-Instruction_ID[10:6], Reg_Data1_ID, Reg_Data2_ID, Imm32b_ID, Instruction_ID[20:16], Instruction_ID[15:11], 
+Instruction_ID[10:6], Reg_Data1_ID, Reg_Data2_ID, Imm32b_ID, Instruction_ID[20:16], Instruction_ID[15:11], Instruction_ID[25:21],
 // Hazard Detect Inputs
 Stall_ID_EX, //Stall_ID_EX hardcoded to 0
 
@@ -113,7 +113,7 @@ R_Enable_EX, W_Enable_EX, R_Width_EX, W_Width_EX,
 // ID/EX Control Signals
 Opcode_EX, Funct_EX, RegDst_EX, ALUSrc0_EX, ALUSrc1_EX,  
 // ID/EX Outputs
-Shamt_EX, Reg_Data1_EX, Reg_Data2_EX, Imm32b_EX, rt_EX, rd_EX
+Shamt_EX, Reg_Data1_EX, Reg_Data2_EX, Imm32b_EX, rt_EX, rd_EX, rs_EX
 );
 
 // Wires used for first time in Execute
@@ -121,16 +121,23 @@ wire Zero_EX;
 wire [27:0] j_sll_two_EX; 
 wire [31:0] ALUResult_EX, PC_Plus_Branch_EX;
 wire [4:0] rDestSelected_EX;
+wire [31:0] ALUResult_MEM;
 
 Execute EX_Stage(
 // Control Signals
-ALUSrc0_EX, ALUSrc1_EX, 0, 0, RegDst_EX, Opcode_EX, Funct_EX,
+ALUSrc0_EX, ALUSrc1_EX, RegDst_EX, Opcode_EX, Funct_EX,
 
 // A0 B0 A1 B1 regDest mux inputs from ID
-Reg_Data1_EX, Reg_Data2_EX, 0, 0, rt_EX, rd_EX,
+Reg_Data1_EX, Reg_Data2_EX, rt_EX, rd_EX, rs_EX,
 
 // Raw Inputs
 Shamt_EX, Imm32b_EX,
+
+// Forwarding Inputs
+rDestSelected_MEM, rDestSelected_WB,
+
+// Redirected Forwarding Signals
+ALUResult_MEM, regWriteData,
 
 // Outputs
 ALUResult_EX, PC_Plus_Branch_EX, rDestSelected_EX
@@ -139,7 +146,7 @@ ALUResult_EX, PC_Plus_Branch_EX, rDestSelected_EX
 wire R_Enable_MEM, W_Enable_MEM, RegWrite_MEM, MemToReg_MEM, Zero_MEM;
 wire [3:0] BranchSel_MEM;
 wire [1:0] R_Width_MEM, W_Width_MEM;
-wire [31:0] ALUResult_MEM, PC_Plus_Branch_MEM, Reg_Data2_MEM;
+wire [31:0] PC_Plus_Branch_MEM, Reg_Data2_MEM;
 wire [27:0] j_sll_two_MEM;
 
 ExecuteToMemory EX_MEM_Pipeline(

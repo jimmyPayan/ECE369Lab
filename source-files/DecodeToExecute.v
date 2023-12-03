@@ -30,7 +30,7 @@ R_EnableIn, W_EnableIn, R_WidthIn, W_WidthIn,
 // ID/EX Control Signals
 OpcodeIn, FunctIn, RegDstIn, ALUSrc0In, ALUSrc1In,
 // ID/EX Inputs
-ShamtIn, Reg_Data1In, Reg_Data2In, Imm32bIn, rtIn, rdIn,
+ShamtIn, Reg_Data1In, Reg_Data2In, Imm32bIn, rtIn, rdIn, rsIn,
 // Hazard Detect Inputs
 Stall_ID_EX,
 
@@ -42,7 +42,7 @@ R_EnableOut, W_EnableOut, R_WidthOut, W_WidthOut,
 // ID/EX Control Signals
 OpcodeOut, FunctOut, RegDstOut, ALUSrc0Out, ALUSrc1Out,
 // ID/EX Outputs
-ShamtOut, Reg_Data1Out, Reg_Data2Out, Imm32bOut, rtOut, rdOut
+ShamtOut, Reg_Data1Out, Reg_Data2Out, Imm32bOut, rtOut, rdOut, rsOut
 );
 
 input Clock;
@@ -53,7 +53,7 @@ input [1:0] R_WidthIn, W_WidthIn;
 
 input RegDstIn, ALUSrc0In;
 input [1:0] ALUSrc1In; // Execute Signals + Data
-input [4:0] ShamtIn, rtIn, rdIn;
+input [4:0] ShamtIn, rtIn, rdIn, rsIn;
 input [5:0] OpcodeIn, FunctIn; 
 input [31:0] Reg_Data1In, Reg_Data2In, Imm32bIn;
 
@@ -66,7 +66,7 @@ output reg [1:0] R_WidthOut, W_WidthOut;
 
 output reg RegDstOut, ALUSrc0Out;
 output reg [1:0] ALUSrc1Out; // Execute Signals + Data
-output reg [4:0] ShamtOut, rtOut, rdOut;
+output reg [4:0] ShamtOut, rtOut, rdOut, rsOut;
 output reg [5:0] OpcodeOut, FunctOut; 
 output reg [31:0] Reg_Data1Out, Reg_Data2Out, Imm32bOut;
 
@@ -94,6 +94,7 @@ FunctOut <= FunctIn;
 ShamtOut <= ShamtIn;
 rtOut <= rtIn;
 rdOut <= rdIn;
+rsOut <= rsIn;
 Reg_Data1Out <= Reg_Data1In;
 Reg_Data2Out <= Reg_Data2In;
 Imm32bOut <= Imm32bIn;
@@ -122,6 +123,7 @@ FunctOut <= 0;
 ShamtOut <= 0;
 rtOut <= 0;
 rdOut <= 0;
+rsOut <= 0;
 Reg_Data1Out <= 0;
 Reg_Data2Out <= 0;
 Imm32bOut <= 0;
