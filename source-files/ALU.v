@@ -44,6 +44,7 @@ module ALU(ALUControl, A, B, ALUResult, Zero);
         7: ALUResult <= B << A; // sll
         8: ALUResult <= B >> A; // srl
         9: begin if (A < B) ALUResult <= 1; else ALUResult <= 0; end // slt
+	    10: begin if (A > B) ALUResult <= 1; else ALUResult <= 0; end
         default: ALUResult <= 32'hXXXXXXXX; // nop
     endcase
     
