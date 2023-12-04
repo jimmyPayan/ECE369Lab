@@ -20,7 +20,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module ProcessorTopFileMIPS(Clock, PC_To_Instr_Mem_output, regWriteData_output, RegWrite_WB_output, rDestSelected_WB_output);
+module ProcessorTopFileMIPS(Clock, PC_To_Instr_Mem_output, regWriteData_output, RegWrite_WB_output, 
+rDestSelected_WB_output, Stall_output, ALUSrcA1_output, ALUSrcB1_output);
 
 // Wires used for first time in Instruction Fetch
 input Clock; // configure outputs
@@ -28,6 +29,8 @@ output reg RegWrite_WB_output;
 output reg [4:0] rDestSelected_WB_output;
 output reg [31:0] PC_To_Instr_Mem_output;
 output reg [31:0] regWriteData_output;
+output reg Stall_output;
+output reg [1:0] ALUSrcA1_output, ALUSrcB1_output;
 
 wire PCSel_ID, Stall_PC;
 wire [31:0] BranchPC_IF, PCPlusFour_IF, Instruction_IF;
@@ -122,6 +125,7 @@ wire [27:0] j_sll_two_EX;
 wire [31:0] ALUResult_EX, PC_Plus_Branch_EX;
 wire [4:0] rDestSelected_EX;
 wire [31:0] ALUResult_MEM;
+wire [1:0] ALUSrcA1, ALUSrcB1;
 
 Execute EX_Stage(
 // Control Signals
@@ -140,7 +144,9 @@ rDestSelected_MEM, rDestSelected_WB,
 ALUResult_MEM, regWriteData,
 
 // Outputs
-ALUResult_EX, PC_Plus_Branch_EX, rDestSelected_EX
+ALUResult_EX, PC_Plus_Branch_EX, rDestSelected_EX,
+
+ALUSrcA1, ALUSrcB1
 );
 
 wire R_Enable_MEM, W_Enable_MEM, RegWrite_MEM, MemToReg_MEM, Zero_MEM;
@@ -204,6 +210,9 @@ rDestSelected_WB_output <= rDestSelected_WB;
 RegWrite_WB_output <= RegWrite_WB;
 PC_To_Instr_Mem_output <= PC_To_Instr_Mem_IF;
 regWriteData_output <= regWriteData;
+Stall_output <= Stall_PC;
+ALUSrcA1_output <= ALUSrcA1;
+ALUSrcB1_output <= ALUSrcB1;
 end
 
 endmodule

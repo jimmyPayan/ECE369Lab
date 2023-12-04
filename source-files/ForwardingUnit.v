@@ -63,6 +63,7 @@ ALUA1, ALUB1);
                 ALUA1 <= 2;
                 ALUB1 <= 0;
             end
+            
             // rs dependency in MEM and no rt dependency 
             else if (EX_rs == MEM_rDestSelected && ((EX_rt != MEM_rDestSelected && EX_rt != WB_rDestSelected) || EX_rt == 0) && MEM_rDestSelected != 0) begin
                 ALUA1 <= 1;

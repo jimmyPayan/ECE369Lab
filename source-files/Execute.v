@@ -37,7 +37,9 @@ MEM_rDestSelected, WB_rDestSelected,
 MEM_ALUResult, WB_regWriteData,
 
 // Outputs
-ALUResult_output, PC_Plus_Branch_output, RegDestSelected_output
+ALUResult_output, PC_Plus_Branch_output, RegDestSelected_output,
+
+ALUSrcA1_output, ALUSrcB1_output
 );
 
 input ALUSrcA0, RegDst;
@@ -62,6 +64,7 @@ wire Zero; // sure if we need a zero bit we have one but we don't
 output reg [31:0] ALUResult_output;
 output reg [31:0] PC_Plus_Branch_output;
 output reg [4:0] RegDestSelected_output;
+output reg [1:0] ALUSrcA1_output, ALUSrcB1_output;
 
 SignExtend5to32 shamtExtend(sa, Shamt_sll_two);
 
@@ -82,6 +85,8 @@ always @(*) begin
 ALUResult_output <= ALUResult;
 PC_Plus_Branch_output <= PC_Plus_Branch;
 RegDestSelected_output <= RegDestSelected;
+ALUSrcA1_output <= ALUSrcA1;
+ALUSrcB1_output <= ALUSrcB1;
 end
 
 endmodule
