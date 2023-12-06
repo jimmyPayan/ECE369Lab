@@ -21,14 +21,14 @@
 
 
 module ProcessorTopFileMIPS(Clock, PC_To_Instr_Mem_output, regWriteData_output, RegWrite_WB_output, 
-rDestSelected_WB_output, Stall_output, ALUSrcA1_output, ALUSrcB1_output, v0_output, v1_output);
+rDestSelected_WB_output, Stall_output, ALUSrcA1_output, ALUSrcB1_output, v0_output, v1_output, Instruction_output);
 
 // Wires used for first time in Instruction Fetch
 input Clock; // configure outputs
 output reg RegWrite_WB_output;
 output reg [4:0] rDestSelected_WB_output;
 output reg [31:0] PC_To_Instr_Mem_output, v0_output, v1_output;
-output reg [31:0] regWriteData_output;
+output reg [31:0] regWriteData_output, Instruction_output;
 output reg Stall_output;
 output reg [1:0] ALUSrcA1_output, ALUSrcB1_output;
 
@@ -217,6 +217,7 @@ ALUSrcA1_output <= ALUSrcA1;
 ALUSrcB1_output <= ALUSrcB1;
 v0_output <= v0;
 v1_output <= v1;
+Instruction_output <= Instruction_IF;
 end
 
 endmodule

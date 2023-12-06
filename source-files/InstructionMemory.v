@@ -45,14 +45,16 @@
 module InstructionMemory(programCounterIn, instructionOut);
 input [31:0] programCounterIn;
 output reg [31:0] instructionOut; // Instruction to be fetched by the processor
-reg [31:0] memory [0:1023]; // Array holding all instructions to be executed by the processor
+reg [31:0] instrMem [0:1023]; // Array holding all instructions to be executed by the processor
 
 initial begin
-`include "vbsme_lab7_instr.v" 
+//$readmemb ("basicmips.mem", instrMem);
+$readmemh ("bug_test.mem", instrMem);
+//$readmemh ("vbsme_lab7_instr.mem", instrMem);
 end
 
 always @ (programCounterIn) begin
-    instructionOut <= memory[programCounterIn / 4];
+    instructionOut <= instrMem[programCounterIn / 4];
 end
 
 endmodule

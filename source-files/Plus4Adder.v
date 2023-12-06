@@ -20,18 +20,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Plus4Adder(ValueIn, ValuePlus4, Stall_PC);
+module Plus4Adder(ValueIn, ValuePlus4);
 
 input [31:0] ValueIn;
-input Stall_PC;
 output reg [31:0] ValuePlus4;
 
-always @ (Stall_PC) begin
-case(Stall_PC)
-    0: begin ValuePlus4 <= ValueIn + 4; end
-    1: begin ValuePlus4 <= ValueIn; end
-endcase
-
+always @ (*) begin
+ ValuePlus4 <= ValueIn + 4;
 end
 
 endmodule

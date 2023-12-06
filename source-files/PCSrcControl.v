@@ -35,7 +35,7 @@ PCSel, BranchPC
     
     // Make it always @ (*), functionality should stay the same though
     always @ (*) begin
-    if (Stall_PC == 1'b0) begin
+    if (Stall_PC == 0) begin
         case (Instruction[31:26])   
             // jr 
             6'b000000: begin
@@ -81,13 +81,13 @@ PCSel, BranchPC
             // j
             6'b000010: begin
                 PCSel <= 1;
-                BranchPC <= {6'b000000, (Instruction[25:0])};
+                BranchPC <= {PC_Plus_Branch[31:28], (Instruction[25:0] << 2)}; // Changed 12/6/23
             end
             
             // jal (BE SURE TO TEST THIS)
             6'b000011: begin
                 PCSel <= 1;
-                BranchPC <= {4'b0000, (Instruction[25:0] << 2)};                
+                BranchPC <= {PC_Plus_Branch[31:28], (Instruction[25:0] << 2)};     // Changed 12/6/23          
             end
             
             // beq

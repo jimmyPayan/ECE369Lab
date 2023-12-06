@@ -27,26 +27,27 @@ InstructionOut, PCPlusFourOut
 input Clock;
 
 input [31:0] InstructionIn;
-output wire [31:0] InstructionOut;
+output reg [31:0] InstructionOut;
 
 reg [31:0] Instruction_reg;
 reg [31:0] PCPlusFour_reg;
 
 input [31:0] PCPlusFourIn;
-output wire [31:0] PCPlusFourOut;
+output reg [31:0] PCPlusFourOut;
 
 input PCSel, Stall_ID;
 
 always @ (posedge Clock) begin
 
 if (PCSel == 0 && Stall_ID == 0) begin
-    Instruction_reg <= InstructionIn;
-    PCPlusFour_reg <= PCPlusFourIn;
+    InstructionOut <= InstructionIn;
+    PCPlusFourOut <= PCPlusFourIn;
 end
 
-else if (PCSel == 1 && Stall_ID == 0) begin 
-    Instruction_reg <= 0;
-    PCPlusFour_reg <= 0;
+//else if (PCSel == 1 && Stall_ID == 0) begin  // test
+else if (PCSel == 1 || Stall_ID == 1) begin 
+    InstructionOut <= 0;
+    PCPlusFourOut <= 0;
 end
 
 // else if (Stall_ID == 1) begin 
@@ -54,8 +55,5 @@ end
 //end 
 
 end
-
-assign InstructionOut = Instruction_reg;
-assign PCPlusFourOut = PCPlusFour_reg;
 
 endmodule

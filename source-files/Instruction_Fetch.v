@@ -36,19 +36,21 @@ output reg [31:0] Instruction_output;
 output reg [31:0] PCPlusFour_output;
 output reg [31:0] PC_To_Instr_Mem_output;
 
-wire [31:0] NewPC;  
-Mux32bit2to1 PC_Mux(PCPlusFour, BranchPC, NewPC, PCSel);
+wire [31:0] NewPC, Selected_PC;  
+Mux32bit2to1 PC_Mux(NewPC, BranchPC, Selected_PC, PCSel);
 
 wire [31:0] PC_To_Instr_Mem;
-ProgramCounter Program_Counter(NewPC, PC_To_Instr_Mem, Clock);
+ProgramCounter Program_Counter(Selected_PC, PC_To_Instr_Mem, Clock);
 
-Plus4Adder PC_Iterator(PC_To_Instr_Mem, PCPlusFour, Stall_PC);
+Plus4Adder PC_Iterator(PC_To_Instr_Mem, PCPlusFour);
+
+Mux32bit2to1 PC_Iterator_Mux(PCPlusFour, PC_To_Instr_Mem, NewPC, Stall_PC);
 
 InstructionMemory Instruction_Memory(PC_To_Instr_Mem, Instruction);
 
 always @ (*) begin
 Instruction_output <= Instruction;
-PCPlusFour_output <= PCPlusFour;
+PCPlusFour_output <= NewPC;
 PC_To_Instr_Mem_output <= PC_To_Instr_Mem;
 end
 

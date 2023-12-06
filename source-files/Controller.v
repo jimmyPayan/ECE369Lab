@@ -28,7 +28,7 @@ Opcode, Funct,
 RegSrc0, RegSrc1,
 RegDst, ALUSrc0, ALUSrc1,
 R_Enable, W_Enable, R_Width, W_Width,
-MemToReg, RegWrite 
+MemToReg, RegWrite, Jal 
 );
 
 input [5:0] Funct, Opcode;
@@ -46,6 +46,7 @@ output reg MemToReg;
 output reg RegWrite;
 output reg [1:0] R_Width;
 output reg [1:0] W_Width;
+output reg Jal;
 
 //always @(Instruction) begin 
 // Since we have case(opcode) and case(branchSignal) we should do always @ (*), functionality should be the same
@@ -68,6 +69,7 @@ case (Opcode)
             RegWrite <= 0;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
+            Jal <= 0;
             end
         // sll
             6'b000000: begin
@@ -82,6 +84,7 @@ case (Opcode)
             RegWrite <= 1;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
+            Jal <= 0;
             end
         // srl
             6'b000010: begin
@@ -96,6 +99,7 @@ case (Opcode)
             RegWrite <= 1;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
+            Jal <= 0;
             end
         // Not sll / srl
             
@@ -110,7 +114,8 @@ case (Opcode)
             MemToReg <= 1;
             RegWrite <= 1;
             R_Width <= 2'bXX;
-            W_Width <= 2'bXX;          
+            W_Width <= 2'bXX;  
+            Jal <= 0;        
             end
     endcase end
     
@@ -128,6 +133,7 @@ case (Opcode)
             RegWrite <= 1;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX; 
+            Jal <= 0;
     end  
     
     // Memory Instructions
@@ -143,7 +149,8 @@ case (Opcode)
             MemToReg <= 0;
             RegWrite <= 1;
             R_Width <= 0;
-            W_Width <= 2'bXX;   
+            W_Width <= 2'bXX;
+            Jal <= 0;   
     end
 
     // lh
@@ -158,7 +165,8 @@ case (Opcode)
             MemToReg <= 0;
             RegWrite <= 1;
             R_Width <= 1;
-            W_Width <= 2'bXX;     
+            W_Width <= 2'bXX; 
+            Jal <= 0;    
     end
 
     // lb
@@ -173,7 +181,8 @@ case (Opcode)
             MemToReg <= 0;
             RegWrite <= 1;
             R_Width <= 2;
-            W_Width <= 2'bXX;       
+            W_Width <= 2'bXX;  
+            Jal <= 0;     
     end
     
     // sw
@@ -189,6 +198,7 @@ case (Opcode)
             RegWrite <= 0;
             R_Width <= 2'bXX;
             W_Width <= 0;
+            Jal <= 0;
     end
     
     // sh
@@ -204,6 +214,7 @@ case (Opcode)
             RegWrite <= 0;
             R_Width <= 2'bXX;
             W_Width <= 1;
+            Jal <= 0;
     end
 
     // sb
@@ -219,6 +230,7 @@ case (Opcode)
             RegWrite <= 0;
             R_Width <= 2'bXX;
             W_Width <= 2;
+            Jal <= 0;
     end
     
     // Branch and Jump instructions
@@ -235,6 +247,7 @@ case (Opcode)
             RegWrite <= 0;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
+            Jal <= 0;
     end
     
     // beq
@@ -250,6 +263,7 @@ case (Opcode)
             RegWrite <= 0;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
+            Jal <= 0;
     end
     
     // bne
@@ -265,6 +279,7 @@ case (Opcode)
             RegWrite <= 0;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
+            Jal <= 0;
     end
     
     // bgtz
@@ -280,6 +295,7 @@ case (Opcode)
             RegWrite <= 0;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
+            Jal <= 0;
     end
     
     // blez
@@ -295,6 +311,7 @@ case (Opcode)
             RegWrite <= 0;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
+            Jal <= 0;
     end
     
     // j
@@ -310,6 +327,7 @@ case (Opcode)
             RegWrite <= 0;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
+            Jal <= 0;
     end
     
     // jal
@@ -322,9 +340,10 @@ case (Opcode)
             R_Enable <= 0; 
             W_Enable <= 0;
             MemToReg <= 0;
-            RegWrite <= 1;
+            RegWrite <= 0;
             R_Width <= 2'bXX;
             W_Width <= 2'bXX;
+            Jal <= 1;
     end
         
     // Logical I-type instructions
@@ -340,6 +359,7 @@ case (Opcode)
         RegWrite <= 1;
         R_Width <= 2'bXX;
         W_Width <= 2'bXX;
+        Jal <= 0;
     end
     
     // andi
@@ -354,6 +374,7 @@ case (Opcode)
         RegWrite <= 1;
         R_Width <= 2'bXX;
         W_Width <= 2'bXX;
+        Jal <= 0;
     end    
     
     // ori
@@ -368,6 +389,7 @@ case (Opcode)
         RegWrite <= 1;
         R_Width <= 2'bXX;
         W_Width <= 2'bXX;
+        Jal <= 0;
     end 
     
     // xori
@@ -382,6 +404,7 @@ case (Opcode)
         RegWrite <= 1;
         R_Width <= 2'bXX;
         W_Width <= 2'bXX;
+        Jal <= 0;
     end 
     
     // slti
@@ -396,6 +419,7 @@ case (Opcode)
         RegWrite <= 1;
         R_Width <= 2'bXX;
         W_Width <= 2'bXX;
+        Jal <= 0;
      end
      default: begin 
         RegSrc0 <= 0;
@@ -408,6 +432,7 @@ case (Opcode)
         RegWrite <= 0;
         R_Width <= 0;
         W_Width <= 0;
+        Jal <= 0;
      end
 endcase
 end

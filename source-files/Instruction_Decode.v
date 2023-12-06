@@ -58,7 +58,7 @@ wire [1:0] R_Width, W_Width, ALUSrc1;
 output reg PCSel_output, Stall_PC_output, Stall_ID_output, Stall_ID_EX_output, RegDst_output, ALUSrc0_output, R_Enable_output, W_Enable_output, MemToReg_output, RegWriteOut_output;
 output reg [1:0] R_Width_output, W_Width_output, ALUSrc1_output;
 output reg [31:0] BranchPC_output;
-wire RegSrc0, RegSrc1, ExtendSel;
+wire RegSrc0, RegSrc1, ExtendSel, Jal;
 
 Controller Sys_Controller(
 // Inputs
@@ -68,7 +68,7 @@ Instruction [31:26], Instruction [5:0],
 RegSrc0, RegSrc1,
 RegDst, ALUSrc0, ALUSrc1, 
 R_Enable, W_Enable, R_Width, W_Width, 
-MemToReg, RegWriteOut
+MemToReg, RegWriteOut, Jal
 );
 
 wire [4:0] rsSelected;
@@ -86,7 +86,10 @@ rsSelected, rtSelected, rDestSelected_ID, regWriteData, RegWrite,
 // Outputs 
 Reg_Data1, Reg_Data2,
 
-v0, v1
+v0, v1, 
+
+// Jal support
+PCPlusFour, Jal
 );
 
 wire [31:0] Imm32b, BranchPC;

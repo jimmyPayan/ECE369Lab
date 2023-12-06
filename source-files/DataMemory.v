@@ -37,11 +37,12 @@ output reg signed [31:0] R_data;
 input signed [31:0] W_data;
 input [31:0] Address;
 
-reg signed [31:0] memory [0:1023];
+reg signed [31:0] memory [0:16383];
 
 initial 
 begin    // Read in memory from .mem file
 `include "vbsme_lab7_data.v"
+//$readmemh ("vbsme_lab7_instr.mem", memory);
 end
 
 always @ (negedge Clock) begin
@@ -50,7 +51,9 @@ always @ (negedge Clock) begin
     begin
         case (memReadCommand)
         // lw
-        0: R_data = memory[Address >> 2];
+        0: begin 
+                R_data = memory[Address >> 2];
+        end 
         // lh
         1: 
             case (Address - ((Address >> 2) << 2))
@@ -106,7 +109,7 @@ always @ (negedge Clock) begin
         endcase
     end 
     else if (!R_en)
-        R_data <= 0;
+        R_data <= 32'hZZZZXXXX;
 end
 
 always @(posedge Clock) begin

@@ -28,12 +28,13 @@ Clk,
 ReadReg1, ReadReg2, WAddr, WData, RegWrite,
 
 // Outputs 
-ReadData1, ReadData2, v0, v1 
+ReadData1, ReadData2, v0, v1, return_address, jal 
 );
 
     input [4:0] ReadReg1, ReadReg2, WAddr;
     input signed [31:0] WData;
-    input RegWrite, Clk;
+    input [31:0] return_address;
+    input RegWrite, Clk, jal;
     output signed [31:0] ReadData1, ReadData2, v0, v1;
    // reg [31:0] ReadData1_reg, ReadData2_reg;
     
@@ -62,7 +63,7 @@ ReadData1, ReadData2, v0, v1
         Registers[28] <= 0;
         
         // Stack pointer set to top of stack
-        Registers[29] <= 1020;
+        Registers[29] <= 16380;
         
         // Frame Pointer
         Registers[30] <= 0;
@@ -77,10 +78,12 @@ ReadData1, ReadData2, v0, v1
     assign v1 = Registers[3];
     
     always @(negedge Clk) begin
-        if (RegWrite == 1 && ((WAddr != 0) && (WAddr != 26) && (WAddr != 27))) begin
+        if (RegWrite == 1 && ((WAddr != 0) && (WAddr != 26) && (WAddr != 27) && (WAddr != 31))) begin
             Registers[WAddr] <= WData;
         end
-        
+        if (jal) begin
+            Registers[31] <= return_address; // Test (remove + 4) if fails
+        end
     end
     
    /* always @(negedge Clk) begin
