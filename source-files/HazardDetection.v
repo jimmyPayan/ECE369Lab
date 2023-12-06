@@ -44,14 +44,14 @@ always @ (ID_rs, ID_rt) begin
    end 
    
    // Branch -> I-Type (Arithmetic or LW) in EX
-   if ((ID_opcode[5:3] == 3'b000 && ID_opcode[2:0] > 3'b000) && (ID_rs == EX_rt || ID_rt == EX_rt) && (EX_opcode != 6'b000000 && EX_opcode != 6'b011100 && EX_opcode != 6'b100011)) begin
+   if ((ID_opcode[5:3] == 3'b000 && ID_opcode[2:0] > 3'b000) && (((ID_rs == EX_rt) && ID_rs) || ((ID_rt == EX_rt) && ID_rt)) && (EX_opcode != 6'b000000 && EX_opcode != 6'b011100 && EX_opcode != 6'b100011)) begin
     Stall_PC <= 1;
     Stall_ID <= 1;
     Stall_ID_EX <= 1;  
    end
    
    // Branch or Jump -> MEM
-   else if ((ID_opcode[5:3] == 3'b000 && ID_opcode[2:0] > 3'b000) && (ID_rs == MEM_rDestSelected || ID_rt == MEM_rDestSelected) && (MEM_opcode != 6'b100011)) begin
+   else if ((ID_opcode[5:3] == 3'b000 && ID_opcode[2:0] > 3'b000) && (((ID_rs == MEM_rDestSelected) && ID_rs) || ((ID_rt == MEM_rDestSelected) && ID_rt)) && (MEM_opcode != 6'b100011)) begin
     Stall_ID <= 1;
     Stall_PC <= 1;
     Stall_ID_EX <= 1;

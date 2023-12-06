@@ -42,7 +42,9 @@ RegDst_output, ALUSrc1_output, ALUSrc0_output,
 Reg_Data1_output, Reg_Data2_output, Imm32b_output,
 
 // Hazard Detection Outputs
-Stall_PC_output, Stall_ID_output, Stall_ID_EX_output
+Stall_PC_output, Stall_ID_output, Stall_ID_EX_output,
+
+v0_output, v1_output
 );
 
 input Clock, RegWrite;
@@ -75,14 +77,16 @@ Mux5bit2to1 rs_Mux(Instruction [25:21], 31, rsSelected, RegSrc0);
 wire [4:0] rtSelected;
 Mux5bit2to1 rt_Mux(0, Instruction [20:16], rtSelected, RegSrc1);
 
-wire [31:0] Reg_Data1, Reg_Data2;
-output reg [31:0] Reg_Data1_output, Reg_Data2_output;
+wire [31:0] Reg_Data1, Reg_Data2, v0, v1;
+output reg [31:0] Reg_Data1_output, Reg_Data2_output, v0_output, v1_output;
 
 UpdatedRegisterFile Register_File(Clock, 
 // Inputs
 rsSelected, rtSelected, rDestSelected_ID, regWriteData, RegWrite,
 // Outputs 
-Reg_Data1, Reg_Data2 
+Reg_Data1, Reg_Data2,
+
+v0, v1
 );
 
 wire [31:0] Imm32b, BranchPC;
@@ -139,6 +143,8 @@ PCSel_output <= PCSel;
 Stall_PC_output <= Stall_PC;
 Stall_ID_output <= Stall_ID;
 Stall_ID_EX_output <= Stall_ID_EX;
+v0_output <= v0;
+v1_output <= v1;
 end 
 
 

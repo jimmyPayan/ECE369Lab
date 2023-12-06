@@ -21,13 +21,13 @@
 
 
 module ProcessorTopFileMIPS(Clock, PC_To_Instr_Mem_output, regWriteData_output, RegWrite_WB_output, 
-rDestSelected_WB_output, Stall_output, ALUSrcA1_output, ALUSrcB1_output);
+rDestSelected_WB_output, Stall_output, ALUSrcA1_output, ALUSrcB1_output, v0_output, v1_output);
 
 // Wires used for first time in Instruction Fetch
 input Clock; // configure outputs
 output reg RegWrite_WB_output;
 output reg [4:0] rDestSelected_WB_output;
-output reg [31:0] PC_To_Instr_Mem_output;
+output reg [31:0] PC_To_Instr_Mem_output, v0_output, v1_output;
 output reg [31:0] regWriteData_output;
 output reg Stall_output;
 output reg [1:0] ALUSrcA1_output, ALUSrcB1_output;
@@ -55,7 +55,7 @@ wire RegDst_ID, ALUSrc0_ID,  R_Enable_ID, W_Enable_ID, MemToReg_ID, RegWrite_ID;
 wire [1:0] R_Width_ID, W_Width_ID, ALUSrc1_ID;
 wire [31:0] Reg_Data1_ID, Reg_Data2_ID, Imm32b_ID;
 wire [4:0] rDestSelected_WB;
-wire [31:0] regWriteData;
+wire [31:0] regWriteData, v0, v1;
 wire RegWrite_WB;
 wire [5:0] Opcode_EX;
 wire Stall_ID_EX;
@@ -83,7 +83,9 @@ RegDst_ID, ALUSrc1_ID, ALUSrc0_ID,
 Reg_Data1_ID, Reg_Data2_ID, Imm32b_ID,
 
 // Hazard Detection Outputs
-Stall_PC, Stall_ID, Stall_ID_EX
+Stall_PC, Stall_ID, Stall_ID_EX,
+
+v0, v1
 );
 
 // Wires used for first time in ID/EX
@@ -213,6 +215,8 @@ regWriteData_output <= regWriteData;
 Stall_output <= Stall_PC;
 ALUSrcA1_output <= ALUSrcA1;
 ALUSrcB1_output <= ALUSrcB1;
+v0_output <= v0;
+v1_output <= v1;
 end
 
 endmodule

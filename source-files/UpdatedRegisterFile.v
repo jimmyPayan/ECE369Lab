@@ -28,13 +28,13 @@ Clk,
 ReadReg1, ReadReg2, WAddr, WData, RegWrite,
 
 // Outputs 
-ReadData1, ReadData2 
+ReadData1, ReadData2, v0, v1 
 );
 
     input [4:0] ReadReg1, ReadReg2, WAddr;
     input signed [31:0] WData;
     input RegWrite, Clk;
-    output signed [31:0] ReadData1, ReadData2;
+    output signed [31:0] ReadData1, ReadData2, v0, v1;
    // reg [31:0] ReadData1_reg, ReadData2_reg;
     
     
@@ -73,6 +73,8 @@ ReadData1, ReadData2
     
     assign ReadData1 = Registers[ReadReg1];
     assign ReadData2 = Registers[ReadReg2];
+    assign v0 = Registers[2];
+    assign v1 = Registers[3];
     
     always @(negedge Clk) begin
         if (RegWrite == 1 && ((WAddr != 0) && (WAddr != 26) && (WAddr != 27))) begin
